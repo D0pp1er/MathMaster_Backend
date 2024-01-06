@@ -81,6 +81,16 @@ docker cp ./init.sql testtube:/tmp/init.sql
 
 docker exec -ti testtube /bin/bash -c "psql -U as_rk -d postgres -f /tmp/init.sql"
 
-
+# to start the container
+docker start testtube
 # creating api
 # create index.js 
+
+# delete a docker container
+# docker rm testtube
+
+#how to install linter in project
+# npm install eslint --save-dev
+# npx eslint --init
+# npm install eslint-plugin-react --save-dev
+# npm install eslint-plugin-react-hooks --save-dev
