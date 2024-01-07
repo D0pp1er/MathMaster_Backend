@@ -22,12 +22,16 @@
 const path = require('path')
 const dotenv = require('dotenv')
 const express = require('express')
+const cors = require('cors')
+const courseRoutes = require('./routes/courseRoutes')
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 
 const pool = require(path.join(__dirname, '/config/db.config.js'))
 
 const app = express()
+
+app.use(cors())
 
 const PORT = process.env.PORT || 9000
 
@@ -49,6 +53,9 @@ app.get('/', (req, res) => {
 })
 
 app.get('/products', getProducts)
+
+// main routes
+app.use('/api/courses', courseRoutes)
 
 app.listen(PORT, () => {
   console.log(`Server listening on the port  ${PORT}`)
