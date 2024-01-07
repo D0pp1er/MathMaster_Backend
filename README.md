@@ -1,3 +1,10 @@
 # SWE_Testube_1
-run 
-node index.js or npx nodemon index.js
+Install dependency
+```
+npm install
+
+```
+
+Run
+```
+node server/index.js or npx nodemon server/index.js
