@@ -24,6 +24,8 @@ const dotenv = require('dotenv')
 const express = require('express')
 const cors = require('cors')
 const courseRoutes = require('./routes/courseRoutes')
+const lessonRoutes = require('./routes/lessonRoutes')
+const authRoutes = require('./routes/authRoutes')
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 
@@ -56,6 +58,8 @@ app.get('/products', getProducts)
 
 // main routes
 app.use('/api/courses', courseRoutes)
+app.use('/api/lessons', lessonRoutes)
+app.use('/api/auth', authRoutes)
 
 app.listen(PORT, () => {
   console.log(`Server listening on the port  ${PORT}`)

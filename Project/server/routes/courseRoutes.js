@@ -9,8 +9,20 @@ router.get('/:courseId', (req, res) => {
   res.send('Get an existing course')
 })
 
+router.get('/courseOutline/:courseId', (req, res) => {
+  res.send('Get an existing course outline')
+})
+
 router.post('/', (req, res) => {
   res.send('Create a new course')
+})
+
+router.post('/enrollCourse/:courseId', (req, res) => {
+  res.send('enroll a new course')
+})
+
+router.post('/rateCourse/:courseId', (req, res) => {
+  res.send('rate a course')
 })
 
 router.patch('/:courseId', (req, res) => {
