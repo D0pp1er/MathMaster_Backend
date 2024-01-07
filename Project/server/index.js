@@ -35,6 +35,7 @@ const PORT = process.env.PORT || 9000
 const getProducts = (req, res) => {
   pool.query('SELECT * FROM products', (error, products) => {
     if (error) {
+      console.log(error)
       throw error
     }
     res.status(200).json(products.rows)

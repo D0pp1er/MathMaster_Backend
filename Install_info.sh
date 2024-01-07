@@ -94,3 +94,16 @@ docker start testtube
 # npx eslint --init
 # npm install eslint-plugin-react --save-dev
 # npm install eslint-plugin-react-hooks --save-dev
+
+
+# installing prisma in pre-existing project
+npm install prisma --save-dev
+npx prisma
+npx prisma init
+
+# search for a file named .env in the project folder
+
+
+
+
+
