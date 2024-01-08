@@ -1,4 +1,5 @@
 const express = require('express')
+const courseController = require('../controllers/courseController')
 const router = express.Router()
 /**
  * @swagger
@@ -153,38 +154,21 @@ const router = express.Router()
  *             schema:
  *               type: string
  */
-module.exports = router
 
-router.get('/', (req, res) => {
-  res.send('Get all courses')
-})
+router.get('/', courseController.getAllCourses)
 
-router.get('/:courseId', (req, res) => {
-  res.send('Get an existing course')
-})
+router.get('/:courseId', courseController.getCourseById)
 
-router.get('/courseOutline/:courseId', (req, res) => {
-  res.send('Get an existing course outline')
-})
+router.get('/courseOutline/:courseId', courseController.getCourseOutline)
 
-router.post('/', (req, res) => {
-  res.send('Create a new course')
-})
+router.post('/', courseController.createCourse)
 
-router.post('/enrollCourse/:courseId', (req, res) => {
-  res.send('enroll a new course')
-})
+router.post('/enrollCourse/:courseId', courseController.enrollCourse)
 
-router.post('/rateCourse/:courseId', (req, res) => {
-  res.send('rate a course')
-})
+router.post('/rateCourse/:courseId', courseController.rateCourse)
 
-router.patch('/:courseId', (req, res) => {
-  res.send('Update an existing course')
-})
+router.patch('/:courseId', courseController.updateCourseById)
 
-router.delete('/:courseId', (req, res) => {
-  res.send('Delete an existing course')
-})
+router.delete('/:courseId', courseController.deleteCourseById)
 
 module.exports = router
