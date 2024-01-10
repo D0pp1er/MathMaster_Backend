@@ -13,6 +13,19 @@ const router = express.Router()
  *   post:
  *     summary: User signup
  *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               email:
+ *                type: string
+ *               password:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Signup successful
@@ -26,6 +39,17 @@ const router = express.Router()
  *   post:
  *     summary: User login
  *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Login successful
@@ -39,6 +63,12 @@ const router = express.Router()
  *   get:
  *     summary: Check for unique username
  *     tags: [Authentication]
+ *     parameters:
+ *       - in: query
+ *         name: username
+ *         schema:
+ *           type: string
+ *         required: true
  *     responses:
  *       200:
  *         description: Username is unique
