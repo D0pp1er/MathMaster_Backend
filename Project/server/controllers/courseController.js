@@ -127,6 +127,10 @@ const deleteCourseById = (req, res) => {
   // Your code here
 }
 
+const publishCourse = (req, res) => {
+  // Your code here
+}
+
 // Export the functions
 module.exports = {
   getAllCourses,
@@ -136,5 +140,6 @@ module.exports = {
   enrollCourse,
   rateCourse,
   updateCourseById,
-  deleteCourseById
+  deleteCourseById,
+  publishCourse
 }

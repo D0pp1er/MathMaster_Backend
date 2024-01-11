@@ -4,7 +4,7 @@ const router = express.Router()
  * @swagger
  * tags:
  *   name: Authentication
- *   description: APIs for user authentication
+ *   description: 
  */
 
 /**
@@ -29,9 +29,26 @@ const router = express.Router()
  *     responses:
  *       200:
  *         description: Signup successful
+ *         response-body:
+ *         content:
+ *           application/json:
+ *            schema:
+ *             type: object
+ *             properties:
+ *              message:
+ *                type: string
+ *                default: Signup successful
+ *       401:
+ *          description: Unauthorized, Invalid email 
+ *       403:
+ *          description: Forbidden route
+ *       404:
+ *          description: Invalid route/User not found
+ *          
  *       500:
  *         description: Internal server error
  */
+
 
 /**
  * @swagger
@@ -53,10 +70,26 @@ const router = express.Router()
  *     responses:
  *       200:
  *         description: Login successful
+ *         response-body:
+ *         content:
+ *           application/json:
+ *            schema:
+ *             type: object
+ *             properties:
+ *              message:
+ *                type: string
+ *                default: Login successful
+ *       401:
+ *          description: Unauthorized, Invalid username or password
+ *       403:
+ *          description: Forbidden route
+ *       404:
+ *          description: Invalid route/User not found
+ *          
  *       500:
  *         description: Internal server error
  */
-
+ 
 /**
  * @swagger
  * /uniqueUserName:
@@ -72,10 +105,28 @@ const router = express.Router()
  *     responses:
  *       200:
  *         description: Username is unique
+ *         response-body:
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                unique:
+ *                  type: boolean
+ *                  default: true
+ *       401:
+ *         description: Unauthorized, Invalid username or password
+ *       403:
+ *         description: Forbidden route
+ *       404:
+ *         description: Invalid route/User not found
  *       500:
  *         description: Internal server error
  */
 
+
+
+// need to add controllers 
 router.post('/signup', (req, res) => {
   res.send('signup')
 })
