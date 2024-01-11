@@ -1,10 +1,10 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 /**
  * @swagger
  * tags:
  *   name: Statistics
- *   description: 
+ *   description:
  */
 
 /**
@@ -66,10 +66,10 @@ const router = express.Router();
  */
 
 router.get('/user/:userId', (req, res) => {
-    // Logic to fetch all stats from the database
-    // ...
-    res.send('Get user stats');
-});
+  // Logic to fetch all stats from the database
+  // ...
+  res.send('Get user stats')
+})
 
 /**
  * @swagger
@@ -127,8 +127,8 @@ router.get('/user/:userId', (req, res) => {
  *                         lessonUpvotes:
  *                             type: integer
  *                             example: 5
- * 
- * 
+ *
+ *
  *       401:
  *         description: Unauthorized, Invalid username or password, or user not found
  *       403:
@@ -140,11 +140,10 @@ router.get('/user/:userId', (req, res) => {
  */
 
 router.get('/author/:authorId', (req, res) => {
-    // Logic to fetch all stats from the database
-    // ...
-    res.send('Get author stats');
-});
-
+  // Logic to fetch all stats from the database
+  // ...
+  res.send('Get author stats')
+})
 
 /**
  * @swagger
@@ -202,8 +201,8 @@ router.get('/author/:authorId', (req, res) => {
  *                         lessonUpvotes:
  *                             type: integer
  *                             example: 5
- * 
- * 
+ *
+ *
  *       401:
  *         description: Unauthorized, Invalid username or password, or user not found
  *       403:
@@ -215,10 +214,9 @@ router.get('/author/:authorId', (req, res) => {
  */
 
 router.get('/moderator/:moderatorId', (req, res) => {
-    // Logic to fetch all stats from the database
-    // ...
-    res.send('Get moderator stats');
-});
+  // Logic to fetch all stats from the database
+  // ...
+  res.send('Get moderator stats')
+})
 
-
-module.exports = router;
+module.exports = router

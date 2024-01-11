@@ -4,7 +4,7 @@ const router = express.Router()
  * @swagger
  * tags:
  *   name: Authentication
- *   description: 
+ *   description:
  */
 
 /**
@@ -39,16 +39,15 @@ const router = express.Router()
  *                type: string
  *                default: Signup successful
  *       401:
- *          description: Unauthorized, Invalid email 
+ *          description: Unauthorized, Invalid email
  *       403:
  *          description: Forbidden route
  *       404:
  *          description: Invalid route/User not found
- *          
+ *
  *       500:
  *         description: Internal server error
  */
-
 
 /**
  * @swagger
@@ -85,11 +84,11 @@ const router = express.Router()
  *          description: Forbidden route
  *       404:
  *          description: Invalid route/User not found
- *          
+ *
  *       500:
  *         description: Internal server error
  */
- 
+
 /**
  * @swagger
  * /api/auth/uniqueUserName:
@@ -125,9 +124,7 @@ const router = express.Router()
  *         description: Internal server error
  */
 
-
-
-// need to add controllers 
+// need to add controllers
 router.post('/signup', (req, res) => {
   res.send('signup')
 })

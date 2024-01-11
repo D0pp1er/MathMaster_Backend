@@ -9,7 +9,6 @@ const router = express.Router()
  *  description:
  */
 
-
 /**
  * @swagger
  * /api/courses/:
@@ -50,13 +49,13 @@ const router = express.Router()
  *                                  example: 'public/assets/images/algebra.jpg'
  *                                description:
  *                                  type: string
- *                                  example: 'Algebra is a branch of mathematics dealing with symbols and the rules for manipulating those symbols. In elementary algebra, those symbols (today written as Latin and Greek letters) represent quantities without fixed values, known as variables. Just as sentences describe relationships between specific words, in algebra, equations describe relationships between variables.'                
+ *                                  example: 'Algebra is a branch of mathematics dealing with symbols and the rules for manipulating those symbols. In elementary algebra, those symbols (today written as Latin and Greek letters) represent quantities without fixed values, known as variables. Just as sentences describe relationships between specific words, in algebra, equations describe relationships between variables.'
  *                                authors:
  *                                 type: array
  *                                 items:
  *                                  type: object
  *                                  properties:
- *                                      AuthorId:   
+ *                                      AuthorId:
  *                                         type: integer
  *                                         example: 1
  *                                      name:
@@ -73,7 +72,7 @@ const router = express.Router()
  *                                  example: 80
  *                                isEnrolled:
  *                                  type: boolean
- *                                  example: true     
+ *                                  example: true
  *       401:
  *         description: Unauthorized, Invalid username or password, or user not found
  *       403:
@@ -119,13 +118,13 @@ router.get('/', courseController.getAllCourses)
  *                                  example: 'public/assets/images/algebra.jpg'
  *                                description:
  *                                  type: string
- *                                  example: 'Algebra is a branch of mathematics dealing with symbols and the rules for manipulating those symbols. In elementary algebra, those symbols (today written as Latin and Greek letters) represent quantities without fixed values, known as variables. Just as sentences describe relationships between specific words, in algebra, equations describe relationships between variables.'                
+ *                                  example: 'Algebra is a branch of mathematics dealing with symbols and the rules for manipulating those symbols. In elementary algebra, those symbols (today written as Latin and Greek letters) represent quantities without fixed values, known as variables. Just as sentences describe relationships between specific words, in algebra, equations describe relationships between variables.'
  *                                authors:
  *                                 type: array
  *                                 items:
  *                                  type: object
  *                                  properties:
- *                                      AuthorId:   
+ *                                      AuthorId:
  *                                         type: integer
  *                                         example: 1
  *                                      name:
@@ -144,7 +143,7 @@ router.get('/', courseController.getAllCourses)
  *                                           id:
  *                                            type: integer
  *                                            example: 2
- *                                           name: 
+ *                                           name:
  *                                            type: string
  *                                            example: 'Algebraic Expressions'
  *                                           lessons:
@@ -174,8 +173,8 @@ router.get('/', courseController.getAllCourses)
  *                                                      example: 'Quiz 1'
  *                                                  completed:
  *                                                      type: boolean
- *                                                      example: false                                  
- *                                   
+ *                                                      example: false
+ *
  *       401:
  *         description: Unauthorized, Invalid username or password, or user not found
  *       403:
@@ -230,13 +229,13 @@ router.get('/:courseId', courseController.getCourseById)
  *                                  example: 'public/assets/images/algebra.jpg'
  *                                description:
  *                                  type: string
- *                                  example: 'Algebra is a branch of mathematics dealing with symbols and the rules for manipulating those symbols. In elementary algebra, those symbols (today written as Latin and Greek letters) represent quantities without fixed values, known as variables. Just as sentences describe relationships between specific words, in algebra, equations describe relationships between variables.'                
+ *                                  example: 'Algebra is a branch of mathematics dealing with symbols and the rules for manipulating those symbols. In elementary algebra, those symbols (today written as Latin and Greek letters) represent quantities without fixed values, known as variables. Just as sentences describe relationships between specific words, in algebra, equations describe relationships between variables.'
  *                                authors:
  *                                 type: array
  *                                 items:
  *                                  type: object
  *                                  properties:
- *                                      AuthorId:   
+ *                                      AuthorId:
  *                                         type: integer
  *                                         example: 1
  *                                      name:
@@ -262,7 +261,7 @@ router.get('/:courseId', courseController.getCourseById)
  *                                  items:
  *                                   type: object
  *                                   properties:
- *                                     1: 
+ *                                     1:
  *                                      type: integer
  *                                      example: 5
  *                                     2:
@@ -283,8 +282,8 @@ router.get('/:courseId', courseController.getCourseById)
  *                                myRating:
  *                                  type: integer
  *                                  example: 5
- * 
- * 
+ *
+ *
  *       401:
  *         description: Unauthorized, Invalid username or password, or user not found
  *       403:
@@ -342,22 +341,22 @@ router.get('/:courseId/outline', courseController.getCourseOutline)
  *              description:
  *                  type: string
  *                  example: 'Algebra is a branch of mathematics'
- * 
- * 
- *     
- * 
+ *
+ *
+ *
+ *
  *     responses:
  *       200:
  *        description: Success
  *        response-body:
  *        content:
- *          application/json:  
+ *          application/json:
  *              schema:
  *                  type: object
  *                  properties:
  *                      message:
  *                          type: string
- *                          default: Course created successfully  
+ *                          default: Course created successfully
  *       401:
  *         description: Unauthorized, Invalid username or password, or user not found
  *       403:
@@ -366,7 +365,6 @@ router.get('/:courseId/outline', courseController.getCourseOutline)
  *         description: Internal Server Error
  */
 router.post('/create', courseController.createCourse)
-
 
 /**
  * @swagger
@@ -382,8 +380,8 @@ router.post('/create', courseController.createCourse)
  *         schema:
  *           type: integer
  *           example: 12
- * 
- * 
+ *
+ *
  *     responses:
  *       200:
  *         description: Success
@@ -429,7 +427,7 @@ router.post('/:courseId/enroll', courseController.enrollCourse)
  *          properties:
  *               rating:
  *                   type: integer
- *                   example: 5  
+ *                   example: 5
  *     responses:
  *       200:
  *         description: Success

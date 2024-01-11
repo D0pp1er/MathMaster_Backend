@@ -1,4 +1,3 @@
-
 const express = require('express')
 const router = express.Router()
 /**
@@ -53,10 +52,10 @@ const router = express.Router()
  *                        name:
  *                          type: string
  *                          example: Shariful Rahi
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
  *       401:
  *         description: Unauthorized, Invalid username or password, or user not found
  *       403:
@@ -151,7 +150,7 @@ const router = express.Router()
  *              upvote:
  *                  type: boolean
  *                  example : true
- *              
+ *
  *     responses:
  *       200:
  *         description: Successfully upvoted a lesson

@@ -1,11 +1,11 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
 /**
  * @swagger
  * tags:
  *   name: Quizzes
- *   description: 
+ *   description:
  */
 /**
  * @swagger
@@ -32,7 +32,7 @@ const router = express.Router();
  *                                  example: 123
  *                                name:
  *                                  type: string
- *                                  example: Quiz 1    
+ *                                  example: Quiz 1
  *       401:
  *         description: Unauthorized, Invalid username or password, or user not found
  *       403:
@@ -45,10 +45,10 @@ const router = express.Router();
 
 // GET all quizzes
 router.get('/', (req, res) => {
-    // Logic to fetch all quizzes from the database
-    // ...
-    res.send('Get all quizzes');
-});
+  // Logic to fetch all quizzes from the database
+  // ...
+  res.send('Get all quizzes')
+})
 
 /**
  * @swagger
@@ -80,10 +80,10 @@ router.get('/', (req, res) => {
  *                  content:
  *                   type: string
  *                   example: "type mcq question : 1+1 = ? , options : 1,2,3,4 , answer : 2"
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
  *       401:
  *         description: Unauthorized, Invalid username or password, or user not found
  *       403:
@@ -95,12 +95,11 @@ router.get('/', (req, res) => {
  */
 // GET a particular definition by id
 router.get('/:quizId', (req, res) => {
-    const quizId = req.params.quizId;
-    // Logic to fetch a definition by id from the database
-    // ...
-    res.send(`Get quiz with id ${quizId}`);
-});
-
+  const quizId = req.params.quizId
+  // Logic to fetch a definition by id from the database
+  // ...
+  res.send(`Get quiz with id ${quizId}`)
+})
 
 /**
  * @swagger
@@ -167,11 +166,11 @@ router.get('/:quizId', (req, res) => {
  */
 // UPDATE a definition by id
 router.put('/:quizId/update', (req, res) => {
-    const quizId = req.params.quizId;
-    // Logic to update a definition by id in the database
-    // ...
-    res.send(`Update quiz with id ${quizId}`);
-});
+  const quizId = req.params.quizId
+  // Logic to update a definition by id in the database
+  // ...
+  res.send(`Update quiz with id ${quizId}`)
+})
 
 /**
  * @swagger
@@ -233,10 +232,10 @@ router.put('/:quizId/update', (req, res) => {
  */
 // CREATE a new quiz
 router.post('/create', (req, res) => {
-    // Logic to create a new quiz in the database
-    // ...
-    res.send('Create a new quiz');
-});
+  // Logic to create a new quiz in the database
+  // ...
+  res.send('Create a new quiz')
+})
 /**
  * @swagger
  * /api/quizzes/{quizId}/delete:
@@ -273,11 +272,11 @@ router.post('/create', (req, res) => {
 
 // DELETE a quiz by id
 router.delete('/:quizId/delete', (req, res) => {
-    const quizId = req.params.quizId;
-    // Logic to delete a definition by id from the database
-    // ...
-    res.send(`Delete quiz with id ${quizId}`);
-});
+  const quizId = req.params.quizId
+  // Logic to delete a definition by id from the database
+  // ...
+  res.send(`Delete quiz with id ${quizId}`)
+})
 /**
  * @swagger
  * /api/quizzes/{quizId}/publish:
@@ -313,12 +312,10 @@ router.delete('/:quizId/delete', (req, res) => {
  */
 // Publish a definition by id
 router.post('/:definitionId/publish', (req, res) => {
-    const definitionId = req.params.definitionId;
-    // Logic to publish a definition by id in the database
-    // ...
-    res.send(`Publish definition with id ${definitionId}`);
-});
+  const definitionId = req.params.definitionId
+  // Logic to publish a definition by id in the database
+  // ...
+  res.send(`Publish definition with id ${definitionId}`)
+})
 
-
-
-module.exports = router;
+module.exports = router
