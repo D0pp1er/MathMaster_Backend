@@ -101,6 +101,7 @@ const router = express.Router()
  *         name: username
  *         schema:
  *           type: string
+ *           example: john
  *         required: true
  *     responses:
  *       200:
