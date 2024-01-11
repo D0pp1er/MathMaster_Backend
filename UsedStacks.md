@@ -4,7 +4,7 @@ Backend : ExpressJS
 
 Database : Dockerized PostgreSQL
 
-ORM : PrimaORM
+ORM : PrismaORM
 
 Architecture:
 
