@@ -30,6 +30,7 @@ const courseRoutes = require('./routes/courseRoutes')
 const lessonRoutes = require('./routes/lessonRoutes')
 const authRoutes = require('./routes/authRoutes')
 const definitionRoutes = require('./routes/definitionRoutes')
+const quizRoutes = require('./routes/quizRoutes')
 
 // swagger api documentation
 const swaggerJSDoc = require('swagger-jsdoc')
@@ -69,6 +70,7 @@ app.use('/api/courses', courseRoutes)
 app.use('/api/lessons', lessonRoutes)
 app.use('/api/auth', authRoutes)
 app.use('/api/definitions', definitionRoutes)
+app.use('/api/quizzes', quizRoutes)
 
 // Swagger setup
 const swaggerOptions = {

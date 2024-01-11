@@ -9,7 +9,7 @@ const router = express.Router()
 
 /**
  * @swagger
- * /signup:
+ * /api/auth/signup:
  *   post:
  *     summary: User signup
  *     tags: [Authentication]
@@ -52,7 +52,7 @@ const router = express.Router()
 
 /**
  * @swagger
- * /login:
+ * /api/auth/login:
  *   post:
  *     summary: User login
  *     tags: [Authentication]
@@ -92,7 +92,7 @@ const router = express.Router()
  
 /**
  * @swagger
- * /uniqueUserName:
+ * /api/auth/uniqueUserName:
  *   get:
  *     summary: Check for unique username
  *     tags: [Authentication]

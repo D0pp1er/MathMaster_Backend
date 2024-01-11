@@ -12,7 +12,7 @@ const router = express.Router()
 
 /**
  * @swagger
- * /:
+ * /api/courses/:
  *   get:
  *     summary: Get all courses
  *     tags: [Course]
@@ -87,7 +87,7 @@ router.get('/', courseController.getAllCourses)
 
 /**
  * @swagger
- * /{courseId}:
+ * /api/courses/{courseId}:
  *   get:
  *     summary: Get a course by ID
  *     tags: [Course]
@@ -189,7 +189,7 @@ router.get('/:courseId', courseController.getCourseById)
 
 /**
  * @swagger
- * /{courseId}/outline:
+ * /api/courses/{courseId}/outline:
  *   get:
  *     summary: Get the outline of a course
  *     tags: [Course]
@@ -298,7 +298,7 @@ router.get('/:courseId/outline', courseController.getCourseOutline)
 
 /**
  * @swagger
- * /create:
+ * /api/courses/create:
  *   post:
  *     summary: Create a new course
  *     tags: [Course]
@@ -370,7 +370,7 @@ router.post('/create', courseController.createCourse)
 
 /**
  * @swagger
- * /{courseId}/enroll:
+ * /api/courses/{courseId}/enroll:
  *   post:
  *     summary: Enroll in a course
  *     tags: [Course]
@@ -409,7 +409,7 @@ router.post('/:courseId/enroll', courseController.enrollCourse)
 
 /**
  * @swagger
- * /{courseId}/rate:
+ * /api/courses/{courseId}/rate:
  *   post:
  *     summary: Rate a course
  *     tags: [Course]
@@ -455,7 +455,7 @@ router.post('/:courseId/rate', courseController.rateCourse)
 
 /**
  * @swagger
- * /{courseId}/update:
+ * /api/courses/{courseId}/update:
  *   patch:
  *     summary: Update a course by ID
  *     tags: [Course]
@@ -524,7 +524,7 @@ router.patch('/:courseId/update', courseController.updateCourseById)
 
 /**
  * @swagger
- * /{courseId}/delete:
+ * /api/courses/{courseId}/delete:
  *   delete:
  *     summary: Delete a course by ID
  *     tags: [Course]
@@ -534,7 +534,7 @@ router.patch('/:courseId/update', courseController.updateCourseById)
  *         required: true
  *         description: ID of the course
  *         schema:
- *           type: string
+ *           type: integer
  *     responses:
  *       200:
  *         description: Success
@@ -560,7 +560,7 @@ router.delete('/:courseId/delete', courseController.deleteCourseById)
 
 /**
  * @swagger
- * /{courseId}/publish:
+ * /api/courses/{courseId}/publish:
  *   post:
  *     summary: Publish a course
  *     tags: [Course]
@@ -570,7 +570,7 @@ router.delete('/:courseId/delete', courseController.deleteCourseById)
  *         required: true
  *         description: ID of the course
  *         schema:
- *           type: string
+ *           type: integer
  *     responses:
  *       200:
  *         description: Success

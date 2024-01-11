@@ -5,12 +5,12 @@ const router = express.Router()
  * @swagger
  * tags:
  *   name: Lessons
- *   description: API endpoints for managing lessons
+ *   description:
  */
 
 /**
  * @swagger
- * /lessons/{lessonId}:
+ * /api/lessons/{lessonId}:
  *   get:
  *     summary: Get a lesson
  *     tags: [Lessons]
@@ -18,7 +18,7 @@ const router = express.Router()
  *       - in: path
  *         name: lessonId
  *         schema:
- *           type: string
+ *           type: integer
  *         required: true
  *         description: ID of the lesson
  *     responses:
@@ -69,7 +69,7 @@ const router = express.Router()
 
 /**
  * @swagger
- * /lessons/create:
+ * /api/lessons/create:
  *   post:
  *     summary: Create a new lesson
  *     tags: [Lessons]
@@ -128,7 +128,7 @@ const router = express.Router()
 
 /**
  * @swagger
- * /lessons/{lessonId}/upvote:
+ * /api/lessons/{lessonId}/upvote:
  *   post:
  *     summary: like or upvote a lesson
  *     tags: [Lessons]
@@ -136,7 +136,7 @@ const router = express.Router()
  *       - in: path
  *         name: lessonId
  *         schema:
- *           type: string
+ *           type: integer
  *         required: true
  *         description: ID of the lesson
  *     requestBody:
@@ -175,7 +175,7 @@ const router = express.Router()
 
 /**
  * @swagger
- * /lessons/{lessonId}/complete:
+ * /api/lessons/{lessonId}/complete:
  *   post:
  *     summary: Complete a lesson
  *     tags: [Lessons]
@@ -183,7 +183,7 @@ const router = express.Router()
  *       - in: path
  *         name: lessonId
  *         schema:
- *           type: string
+ *           type: integer
  *         required: true
  *         description: ID of the lesson
  *     responses:
@@ -209,7 +209,7 @@ const router = express.Router()
 
 /**
  * @swagger
- * /lessons/{lessonId}/update:
+ * /api/lessons/{lessonId}/update:
  *   patch:
  *     summary: Update an existing lesson
  *     tags: [Lessons]
@@ -217,7 +217,7 @@ const router = express.Router()
  *       - in: path
  *         name: lessonId
  *         schema:
- *           type: string
+ *           type: integer
  *         required: true
  *         description: ID of the lesson
 *     requestBody:
@@ -270,7 +270,7 @@ const router = express.Router()
 
 /**
  * @swagger
- * /lessons/{lessonId}/delete:
+ * /api/lessons/{lessonId}/delete:
  *   delete:
  *     summary: Delete an existing lesson
  *     tags: [Lessons]
@@ -278,7 +278,7 @@ const router = express.Router()
  *       - in: path
  *         name: lessonId
  *         schema:
- *           type: string
+ *           type: integer
  *         required: true
  *         description: ID of the lesson
  *     responses:
@@ -304,7 +304,7 @@ const router = express.Router()
 
 /**
  * @swagger
- * /lessons/{lessonId}/publish:
+ * /api/lessons/{lessonId}/publish:
  *   post:
  *     summary: Publish a lesson
  *     tags: [Lessons]
@@ -312,7 +312,7 @@ const router = express.Router()
  *       - in: path
  *         name: lessonId
  *         schema:
- *           type: string
+ *           type: integer
  *         required: true
  *         description: ID of the lesson
  *     responses:
