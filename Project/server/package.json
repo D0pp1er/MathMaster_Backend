@@ -7,9 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js"
   },
+  "prisma" : {
+    "seed": "node prisma/seed.js"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^5.8.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "eslint": "^8.56.0",
@@ -18,8 +22,5 @@
     "pg": "^8.11.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
-  },
-  "devDependencies": {
-    "prisma": "^5.7.1"
   }
 }

@@ -7,12 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model products {
-  product_id  Int    @id @default(autoincrement())
-  name        String @db.VarChar(50)
-  price       Float  @db.Real
-  description String
-}
+// model products {
+//   product_id  Int    @id @default(autoincrement())
+//   name        String @db.VarChar(50)
+//   price       Float  @db.Real
+//   description String
+// }
 
 model user {
   user_id   Int     @id @default(autoincrement())
@@ -21,7 +21,7 @@ model user {
   email     String  @unique @db.VarChar(255)
   DOB       DateTime
   picture   String
-  content_author content_author?
+  author    author?
 }
 
 model course_type {
@@ -52,6 +52,7 @@ model language {
   lesson_content  lesson_content[]
   definition      definition[]
   quiz_content    quiz_content[]
+  lesson_author   lesson_author[]
 
 }
 
@@ -67,10 +68,23 @@ model course_content {
 }
 
 
-model content_author {
+model author {
   content_author_id   Int     @id @default(autoincrement())
   user_id             Int     @unique
   user                user    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+  lesson_author       lesson_author[]
+}
+
+model lesson_author {
+  author_id           Int
+  author              author  @relation(fields: [author_id], references: [content_author_id], onDelete: NoAction, onUpdate: NoAction)
+  lesson_id           Int
+  lesson              lesson  @relation(fields: [lesson_id], references: [lesson_id], onDelete: NoAction, onUpdate: NoAction)
+  language_id         Int
+  language            language  @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
+  abstraction_level_id Int
+  abstraction_level    abstraction_level  @relation(fields: [abstraction_level_id], references: [abstraction_level_id], onDelete: NoAction, onUpdate: NoAction)
+  @@id([author_id, lesson_id, language_id, abstraction_level_id])
 }
 
 model prerequisite_course {
@@ -105,6 +119,7 @@ model abstraction_level {
   abstraction_level_id  Int     @id @default(autoincrement())
   name                  String  @db.VarChar(255)
   lesson_content        lesson_content[]
+  lesson_author         lesson_author[]
 }
 
 model lesson {
@@ -113,6 +128,7 @@ model lesson {
   topic                 topic   @relation(fields: [topic_id], references: [topic_id], onDelete: NoAction, onUpdate: NoAction)
   XP                    Int
   lesson_content        lesson_content[]
+  lesson_author         lesson_author[]
 }
 
 model lesson_content {
