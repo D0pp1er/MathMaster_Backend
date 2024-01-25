@@ -13,3 +13,141 @@ model products {
   price       Float  @db.Real
   description String
 }
+
+model user {
+  user_id   Int     @id @default(autoincrement())
+  name      String  @db.VarChar(50)
+  password  String
+  email     String  @unique @db.VarChar(255)
+  DOB       DateTime
+  picture   String
+  content_author content_author?
+}
+
+model course_type {
+  course_type_id  Int     @id @default(autoincrement())
+  name            String  @db.VarChar(255)
+  picture         String
+  course          course[]
+}
+
+model course {
+  course_id       Int     @id @default(autoincrement())
+  picture         String
+  level           String  @db.VarChar(255)
+  type            course_type @relation(fields: [type_id], references: [course_type_id], onDelete: NoAction, onUpdate: NoAction)
+  type_id         Int
+  course_content  course_content[]
+  prerequisite_course prerequisite_course[]
+  topic           topic[]
+
+}
+
+
+model language {
+  language_id     Int     @id @default(autoincrement())
+  name            String  @db.VarChar(255)
+  course_content  course_content[]
+  topic_content   topic_content[]
+  lesson_content  lesson_content[]
+  definition      definition[]
+  quiz_content    quiz_content[]
+
+}
+
+
+model course_content {
+  name                String  @db.VarChar(255)
+  description         String
+  course              course  @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
+  course_id   Int
+  language            language  @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
+  language_id   Int
+  @@id([course_id, language_id])
+}
+
+
+model content_author {
+  content_author_id   Int     @id @default(autoincrement())
+  user_id             Int     @unique
+  user                user    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model prerequisite_course {
+  course_id           Int
+  prerequisite_id     Int
+  course              course  @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
+  @@id([course_id, prerequisite_id])
+}
+
+
+model topic {
+  topic_id            Int     @id @default(autoincrement())
+  course_id           Int
+  course              course  @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
+  topic_content       topic_content[]
+  lesson              lesson[]
+  quiz                quiz[]
+  @@unique([course_id, topic_id])
+}
+
+model topic_content {
+  name                String  @db.VarChar(255)
+  description         String
+  topic_id            Int
+  topic               topic   @relation(fields: [topic_id], references: [topic_id], onDelete: NoAction, onUpdate: NoAction)
+  language            language  @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
+  language_id         Int
+  @@id([topic_id, language_id])
+}
+
+model abstraction_level {
+  abstraction_level_id  Int     @id @default(autoincrement())
+  name                  String  @db.VarChar(255)
+  lesson_content        lesson_content[]
+}
+
+model lesson {
+  lesson_id             Int     @id @default(autoincrement())
+  topic_id              Int
+  topic                 topic   @relation(fields: [topic_id], references: [topic_id], onDelete: NoAction, onUpdate: NoAction)
+  XP                    Int
+  lesson_content        lesson_content[]
+}
+
+model lesson_content {
+  lesson_id             Int
+  lesson                lesson  @relation(fields: [lesson_id], references: [lesson_id], onDelete: NoAction, onUpdate: NoAction)
+  name                 String  @db.VarChar(255)
+  content              String
+  language_id          Int
+  abstraction_level_id Int
+  language             language  @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
+  abstraction_level    abstraction_level  @relation(fields: [abstraction_level_id], references: [abstraction_level_id], onDelete: NoAction, onUpdate: NoAction)
+  @@id([lesson_id, language_id, abstraction_level_id])
+}
+
+model definition {
+  definition_id         Int     @id @default(autoincrement())
+  name                  String  @db.VarChar(255)
+  content               String
+  language_id           Int
+  language              language  @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
+  }
+
+  model quiz {
+    quiz_id               Int     @id @default(autoincrement())
+    topic_id              Int
+    topic                 topic   @relation(fields: [topic_id], references: [topic_id], onDelete: NoAction, onUpdate: NoAction)
+    XP                    Int
+    quiz_content          quiz_content[]
+  }
+
+  model quiz_content {
+    quiz_id               Int
+    quiz                  quiz    @relation(fields: [quiz_id], references: [quiz_id], onDelete: NoAction, onUpdate: NoAction)
+    content               String
+    language_id           Int
+    language              language  @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
+    @@id([quiz_id, language_id])
+  }
