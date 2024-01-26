@@ -26,14 +26,14 @@ model user {
 
 model course_type {
   course_type_id  Int     @id @default(autoincrement())
-  name            String  @db.VarChar(255)
-  picture         String
+  name            String  @db.VarChar(255) @unique
+  picture         String?
   course          course[]
 }
 
 model course {
   course_id       Int     @id @default(autoincrement())
-  picture         String
+  picture         String?
   level           String  @db.VarChar(255)
   type            course_type @relation(fields: [type_id], references: [course_type_id], onDelete: NoAction, onUpdate: NoAction)
   type_id         Int
@@ -46,7 +46,7 @@ model course {
 
 model language {
   language_id     Int     @id @default(autoincrement())
-  name            String  @db.VarChar(255)
+  name            String  @db.VarChar(255) @unique
   course_content  course_content[]
   topic_content   topic_content[]
   lesson_content  lesson_content[]
@@ -58,7 +58,7 @@ model language {
 
 
 model course_content {
-  name                String  @db.VarChar(255)
+  name                String  @db.VarChar(255) @unique
   description         String
   course              course  @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
   course_id   Int
@@ -107,7 +107,7 @@ model topic {
 
 model topic_content {
   name                String  @db.VarChar(255)
-  description         String
+  description         String?
   topic_id            Int
   topic               topic   @relation(fields: [topic_id], references: [topic_id], onDelete: NoAction, onUpdate: NoAction)
   language            language  @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
@@ -117,7 +117,7 @@ model topic_content {
 
 model abstraction_level {
   abstraction_level_id  Int     @id @default(autoincrement())
-  name                  String  @db.VarChar(255)
+  name                  String  @db.VarChar(255) @unique
   lesson_content        lesson_content[]
   lesson_author         lesson_author[]
 }
@@ -145,7 +145,7 @@ model lesson_content {
 
 model definition {
   definition_id         Int     @id @default(autoincrement())
-  name                  String  @db.VarChar(255)
+  name                  String  @db.VarChar(255) @unique
   content               String
   language_id           Int
   language              language  @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
@@ -167,3 +167,5 @@ model definition {
     language              language  @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
     @@id([quiz_id, language_id])
   }
+
+  //rating system, completion  
