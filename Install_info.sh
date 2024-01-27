@@ -85,7 +85,7 @@ docker exec -ti testtube /bin/bash -c "psql -U as_rk -d postgres -f /tmp/init.sq
 docker start testtube
 # creating api
 # create index.js 
-
+docker exec -it testtube psql -U as_rk -d postgres
 # delete a docker container
 # docker rm testtube
 
