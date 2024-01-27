@@ -1,8 +1,8 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
-async function add_user () {
-  const user = await prisma.user.createMany({
+async function addUser () {
+  await prisma.user.createMany({
     data: [{
       email: 'sharifulislam.9876@gmail.com',
       password: '123456',
@@ -28,8 +28,8 @@ async function add_user () {
 //         await prisma.$disconnect()
 //     })
 
-async function add_author () {
-  const author = await prisma.author.createMany({
+async function addAuthor () {
+  await prisma.author.createMany({
     data: [{
       user_id: 1
     },
@@ -47,8 +47,8 @@ async function add_author () {
 //         await prisma.$disconnect()
 //     })
 
-async function add_course_type () {
-  const course_type = await prisma.course_type.createMany({
+async function addCourseType () {
+  await prisma.course_type.createMany({
     data: [{
       name: 'Algebra'
     },
@@ -66,8 +66,8 @@ async function add_course_type () {
 //         await prisma.$disconnect()
 //     })
 
-async function add_course () {
-  const course = await prisma.course.createMany({
+async function addCourse () {
+  await prisma.course.createMany({
     data: [{
       level: 'Beginner',
       type_id: 1
@@ -91,8 +91,8 @@ async function add_course () {
 //         await prisma.$disconnect()
 //     })
 
-async function add_language () {
-  const language = await prisma.language.createMany({
+async function addLanguage () {
+  await prisma.language.createMany({
     data: [{
       name: 'English'
     },
@@ -110,8 +110,8 @@ async function add_language () {
 //         await prisma.$disconnect()
 //     })
 
-async function add_course_content () {
-  const course_content = await prisma.course_content.createMany({
+async function addCourseContent () {
+  await prisma.course_content.createMany({
     data: [
       {
         name: 'Algebra I',
@@ -142,8 +142,8 @@ async function add_course_content () {
 //         await prisma.$disconnect()
 //     })
 
-async function add_prerequisite () {
-  const prerequisite = await prisma.prerequisite_course.createMany({
+async function addPrerequisite () {
+  await prisma.prerequisite_course.createMany({
     data: [{
       course_id: 2,
       prerequisite_id: 1
@@ -159,8 +159,8 @@ async function add_prerequisite () {
 //         await prisma.$disconnect()
 //     })
 
-async function add_topic () {
-  const topic = await prisma.topic.createMany({
+async function addTopic () {
+  await prisma.topic.createMany({
     data: [
       {
         course_id: 1
@@ -183,8 +183,8 @@ async function add_topic () {
 //         await prisma.$disconnect()
 //     })
 
-async function add_topic_content () {
-  const topic_content = await prisma.topic_content.createMany({
+async function addTopicContent () {
+  await prisma.topic_content.createMany({
     data: [
       {
         name: 'Topic 1',
@@ -209,8 +209,8 @@ async function add_topic_content () {
 //         await prisma.$disconnect()
 //     })
 
-async function add_abstraciton_level () {
-  const abstraction_level = await prisma.abstraction_level.createMany({
+async function addAbstracitonLevel () {
+  await prisma.abstraction_level.createMany({
     data: [
       {
         name: 'Novice'
@@ -234,8 +234,8 @@ async function add_abstraciton_level () {
 //         await prisma.$disconnect()
 //     })
 
-async function add_lesson () {
-  const lesson = await prisma.lesson.createMany({
+async function addLesson () {
+  await prisma.lesson.createMany({
     data: [
       {
         topic_id: 1,
@@ -274,8 +274,8 @@ async function add_lesson () {
 //         await prisma.$disconnect()
 //     })
 
-async function add_lesson_content () {
-  const lesson_content = await prisma.lesson_content.createMany({
+async function addLessonContent () {
+  await prisma.lesson_content.createMany({
     data: [
       {
         lesson_id: 1,
@@ -297,8 +297,8 @@ async function add_lesson_content () {
 //         await prisma.$disconnect()
 //     })
 
-async function add_definition () {
-  const definition = await prisma.definition.createMany({
+async function addDefinition () {
+  await prisma.definition.createMany({
     data: [
       {
         name: 'linear',
@@ -323,8 +323,8 @@ async function add_definition () {
 //         await prisma.$disconnect()
 //     })
 
-async function add_quiz () {
-  const quiz = await prisma.quiz.createMany({
+async function addQuiz () {
+  await prisma.quiz.createMany({
     data: [
       {
         topic_id: 1,
@@ -343,8 +343,8 @@ async function add_quiz () {
 //         await prisma.$disconnect()
 //     })
 
-async function add_quiz_content () {
-  const quiz_content = await prisma.quiz_content.createMany({
+async function addQuizContent () {
+  await prisma.quiz_content.createMany({
     data: [
       {
         quiz_id: 1,
@@ -364,8 +364,8 @@ async function add_quiz_content () {
 //         await prisma.$disconnect()
 //     })
 
-async function add_lesson_author () {
-  const lesson_author = await prisma.lesson_author.createMany({
+async function addLessonAuthor () {
+  await prisma.lesson_author.createMany({
     data: [
       {
         author_id: 1,
@@ -385,22 +385,22 @@ async function add_lesson_author () {
 }
 async function seedData () {
   try {
-    await add_user()
-    await add_author()
-    await add_course_type()
-    await add_course()
-    await add_language()
-    await add_course_content()
-    await add_prerequisite()
-    await add_topic()
-    await add_topic_content()
-    await add_abstraciton_level()
-    await add_lesson()
-    await add_lesson_content()
-    await add_definition()
-    await add_quiz()
-    await add_quiz_content()
-    await add_lesson_author()
+    await addUser()
+    await addAuthor()
+    await addCourseType()
+    await addCourse()
+    await addLanguage()
+    await addCourseContent()
+    await addPrerequisite()
+    await addTopic()
+    await addTopicContent()
+    await addAbstracitonLevel()
+    await addLesson()
+    await addLessonContent()
+    await addDefinition()
+    await addQuiz()
+    await addQuizContent()
+    await addLessonAuthor()
   } catch (error) {
     console.error(error)
   }
