@@ -3,14 +3,20 @@ const courserepository = require('../database/courserepository')
 
 // Function to get all courses
 const getAllCourses = async (req, res) => {
-  const courseNames = await courserepository.getCourseNames('English')
+  const courses = await courserepository.getAllCourses(3, 'English')
   // console.log(courseNames)
-  res.send(courseNames)
+  res.send(courses)
 }
 
 // Function to get a specific course by ID
-const getCourseById = (req, res) => {
-  res.send('get course by id')
+const getCourseById = async (req, res) => {
+  // console.log('\ncourse id is', req.params.courseId)
+
+  const courseId = parseInt(req.params.courseId, 10) // Typecast to integer
+
+  const course = await courserepository.getCourseById(3, courseId, 'English')
+
+  res.send(course)
 }
 
 // Function to get the course outline

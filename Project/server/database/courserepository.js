@@ -27,10 +27,6 @@ async function getUserProgress (userId, courseId) {
                     where:
                     {
                       user_id: userId
-                    },
-                    select:
-                    {
-                      lesson_id: true
                     }
                   }
                 }
@@ -44,11 +40,7 @@ async function getUserProgress (userId, courseId) {
                     where:
                     {
                       user_id: userId
-                    },
-                    // select:
-                    // {
-                    //   quiz_id: true
-                    // }
+                    }
                   }
                 }
               }
@@ -61,11 +53,11 @@ async function getUserProgress (userId, courseId) {
     let completedLessons = 0
     let completedQuizzes = 0
     if (enrolled) {
-      console.log('userProgress', userProgress.lesson)
+      // console.log('userProgress', userProgress.lesson)
       completedLessons = userProgress.topic.reduce((total, topic) => total + topic.lesson.reduce((total, lesson) => total + lesson.completed_lessons.length, 0), 0)
       completedQuizzes = userProgress.topic.reduce((total, topic) => total + topic.quiz.reduce((total, quiz) => total + quiz.completed_quizzes.length, 0), 0)
-      console.log('completedLessons', completedLessons)
-      console.log('completedQuizzes', completedQuizzes)
+      // console.log('completedLessons', completedLessons)
+      // console.log('completedQuizzes', completedQuizzes)
     }
     return { enrolled, completedLessons, completedQuizzes }
   } catch (error) {
@@ -190,7 +182,7 @@ async function getAuthorsByCourseAndLanguage (courseId, languageName) {
   }
 }
 
-async function getCourseNames (language) {
+async function getAllCourses (userID, language) {
   try {
     const courses = await prisma.course.findMany(
       {
@@ -226,7 +218,6 @@ async function getCourseNames (language) {
       }
     )
 
-    const userID = 3
     const result = await Promise.all(courses.map(async (course) => {
       const lessonAndQuizCount = await getLessonAndQuizCount(course.course_id, language)
       const courseauthors = await getAuthorsByCourseAndLanguage(course.course_id, language)
@@ -254,7 +245,140 @@ async function getCourseNames (language) {
     throw error
   }
 }
+async function hasUserCompletedLessons (userId, lessonId) {
+  const completedLessons = await prisma.completed_lessons.findFirst({
+    where: {
+      user_id: userId,
+      lesson_id: lessonId
+    }
+  })
+
+  return !!completedLessons
+}
+async function getLessonStatusByTopic (topicId, language, userId) {
+  const lessons = await prisma.lesson.findMany({
+    where: {
+      topic_id: topicId,
+      lesson_content: {
+        some: {
+          language: {
+            name: language
+          }
+        }
+      }
+    },
+    select: {
+      lesson_id: true,
+      lesson_content: {
+        select: {
+          name: true
+        }
+      }
+    }
+  })
+  const lessonMap = lessons.map(lesson => ({
+    id: lesson.lesson_id,
+    name: lesson.lesson_content.name
+  }))
+
+  console.log(lessonMap)
+  return lessonMap
+}
+
+async function getCourseOutline (userID, courseId, language) {
+  try {
+    const courseOutline = await prisma.course.findUnique({
+      where: {
+        course_id: courseId
+      },
+      select: {
+        topic: {
+          where:
+              {
+                topic_content: {
+                  some: {
+                    language: {
+                      name: language
+                    }
+                  }
+                }
+              },
+          select: {
+            topic_id: true,
+            topic_content:
+            {
+              select: {
+                name: true,
+                description: true
+              }
+            }
+          }
+        }
+      }
+
+    })
+    // console.log(courseOutline)
+    const topics = await Promise.all(courseOutline.topic.map(async (topic) => {
+      const id = topic.topic_id
+      const name = topic.topic_content[0].name
+      const description = topic.topic_content[0].description
+      const lessons = await getLessonStatusByTopic(id, language, userID)
+      return {
+        id,
+        name,
+        description,
+        lessons
+      }
+    }))
+    return topics
+  } catch (error) {
+    console.error('Error retrieving course outline:', error)
+    throw error
+  }
+}
+
+async function getCourseById (userID, courseId, language) {
+  try {
+    const course = await prisma.course.findUnique({
+      where: {
+        course_id: courseId
+      },
+      select: {
+        course_id: true,
+        picture: true,
+        course_content:
+        {
+          where: {
+            language: {
+              name: language
+            }
+          },
+          select: {
+            name: true,
+            description: true
+          }
+        }
+      }
+    })
+    const courseauthors = await getAuthorsByCourseAndLanguage(course.course_id, language)
+    const courseOutline = await getCourseOutline(userID, courseId, language)
+
+    const result = {
+      id: course.course_id,
+      name: course.course_content[0].name,
+      image: course.picture,
+      description: course.course_content[0].description,
+      authors: courseauthors,
+      content: courseOutline
+    }
+    return result
+  } catch (error) {
+    console.error('Error retrieving course by ID:', error)
+    throw error
+  }
+}
 
 module.exports = {
-  getCourseNames
+  getAllCourses,
+  getCourseById
 }
