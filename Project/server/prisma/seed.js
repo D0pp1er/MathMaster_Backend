@@ -16,6 +16,13 @@ async function addUser () {
       name: 'Asib Rahman',
       DOB: new Date('1998-12-12').toISOString(),
       picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg'
+    },
+    {
+      email: 'johndoe@anym.com',
+      password: '123456',
+      name: 'John Doe',
+      DOB: new Date('1998-12-12').toISOString(),
+      picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg'
     }]
   })
 }
@@ -66,19 +73,39 @@ async function addCourseType () {
 //         await prisma.$disconnect()
 //     })
 
+async function addCourseLevel () {
+  await prisma.course_level.createMany({
+    data: [{
+      name: 'Beginner'
+    },
+    {
+      name: 'Intermediate'
+    },
+    {
+      name: 'Hard'
+    }]
+  })
+}
+
 async function addCourse () {
   await prisma.course.createMany({
     data: [{
-      level: 'Beginner',
-      type_id: 1
+      level_id: 1,
+      type_id: 1,
+      picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg',
+      estimated_time: 10
     },
     {
-      level: 'Intermediate',
-      type_id: 1
+      level_id: 2,
+      type_id: 1,
+      picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg',
+      estimated_time: 24
     },
     {
-      level: 'Beginner',
-      type_id: 2
+      level_id: 1,
+      type_id: 2,
+      picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg',
+      estimated_time: 20
     }]
   })
 }
@@ -328,7 +355,8 @@ async function addQuiz () {
     data: [
       {
         topic_id: 1,
-        XP: 100
+        XP: 100,
+        Total_score: 100
       }
 
     ]
@@ -383,11 +411,59 @@ async function addLessonAuthor () {
     ]
   })
 }
+
+async function addEnrolledCourse () {
+  await prisma.enrolled_courses.createMany({
+    data: [
+      {
+        user_id: 3,
+        course_id: 1,
+        timestamp: new Date('2020-12-12T08:30:21').toISOString()
+      },
+      {
+        user_id: 3,
+        course_id: 2,
+        timestamp: new Date('2023-12-12T08:30:21').toISOString()
+      }
+
+    ]
+  })
+}
+
+async function addCompletedLesson () {
+  await prisma.completed_lessons.createMany({
+    data: [
+      {
+        user_id: 3,
+        lesson_id: 1,
+        timestamp: new Date('2022-11-21T08:30:21').toISOString(),
+        rating: 4,
+        feedback: 'Interesting'
+
+      }
+    ]
+  })
+}
+
+async function addCompletedQuiz () {
+  await prisma.completed_quizzes.createMany({
+    data: [
+      {
+        user_id: 3,
+        quiz_id: 1,
+        timestamp: new Date('2022-11-21T08:30:21').toISOString(),
+        score: 90,
+        XP: 90
+      }
+    ]
+  })
+}
 async function seedData () {
   try {
     await addUser()
     await addAuthor()
     await addCourseType()
+    await addCourseLevel()
     await addCourse()
     await addLanguage()
     await addCourseContent()
@@ -401,6 +477,9 @@ async function seedData () {
     await addQuiz()
     await addQuizContent()
     await addLessonAuthor()
+    await addEnrolledCourse()
+    await addCompletedLesson()
+    await addCompletedQuiz()
   } catch (error) {
     console.error(error)
   }

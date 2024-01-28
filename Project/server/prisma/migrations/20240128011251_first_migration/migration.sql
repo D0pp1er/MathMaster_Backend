@@ -20,11 +20,20 @@ CREATE TABLE "course_type" (
 );
 
 -- CreateTable
+CREATE TABLE "course_level" (
+    "course_level_id" SERIAL NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+
+    CONSTRAINT "course_level_pkey" PRIMARY KEY ("course_level_id")
+);
+
+-- CreateTable
 CREATE TABLE "course" (
     "course_id" SERIAL NOT NULL,
     "picture" TEXT,
-    "level" VARCHAR(255) NOT NULL,
+    "level_id" INTEGER NOT NULL,
     "type_id" INTEGER NOT NULL,
+    "estimated_time" INTEGER NOT NULL,
 
     CONSTRAINT "course_pkey" PRIMARY KEY ("course_id")
 );
@@ -134,6 +143,7 @@ CREATE TABLE "quiz" (
     "quiz_id" SERIAL NOT NULL,
     "topic_id" INTEGER NOT NULL,
     "XP" INTEGER NOT NULL,
+    "Total_score" INTEGER NOT NULL,
 
     CONSTRAINT "quiz_pkey" PRIMARY KEY ("quiz_id")
 );
@@ -147,11 +157,45 @@ CREATE TABLE "quiz_content" (
     CONSTRAINT "quiz_content_pkey" PRIMARY KEY ("quiz_id","language_id")
 );
 
+-- CreateTable
+CREATE TABLE "enrolled_courses" (
+    "user_id" INTEGER NOT NULL,
+    "course_id" INTEGER NOT NULL,
+    "timestamp" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "enrolled_courses_pkey" PRIMARY KEY ("user_id","course_id")
+);
+
+-- CreateTable
+CREATE TABLE "completed_lessons" (
+    "user_id" INTEGER NOT NULL,
+    "lesson_id" INTEGER NOT NULL,
+    "timestamp" TIMESTAMP(3) NOT NULL,
+    "rating" INTEGER,
+    "feedback" TEXT,
+
+    CONSTRAINT "completed_lessons_pkey" PRIMARY KEY ("user_id","lesson_id")
+);
+
+-- CreateTable
+CREATE TABLE "completed_quizzes" (
+    "user_id" INTEGER NOT NULL,
+    "quiz_id" INTEGER NOT NULL,
+    "timestamp" TIMESTAMP(3) NOT NULL,
+    "score" INTEGER NOT NULL,
+    "XP" INTEGER NOT NULL,
+
+    CONSTRAINT "completed_quizzes_pkey" PRIMARY KEY ("user_id","quiz_id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "course_type_name_key" ON "course_type"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "course_level_name_key" ON "course_level"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "language_name_key" ON "language"("name");
@@ -170,6 +214,9 @@ CREATE UNIQUE INDEX "abstraction_level_name_key" ON "abstraction_level"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "definition_name_key" ON "definition"("name");
+
+-- AddForeignKey
+ALTER TABLE "course" ADD CONSTRAINT "course_level_id_fkey" FOREIGN KEY ("level_id") REFERENCES "course_level"("course_level_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "course" ADD CONSTRAINT "course_type_id_fkey" FOREIGN KEY ("type_id") REFERENCES "course_type"("course_type_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -230,3 +277,21 @@ ALTER TABLE "quiz_content" ADD CONSTRAINT "quiz_content_quiz_id_fkey" FOREIGN KE
 
 -- AddForeignKey
 ALTER TABLE "quiz_content" ADD CONSTRAINT "quiz_content_language_id_fkey" FOREIGN KEY ("language_id") REFERENCES "language"("language_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "enrolled_courses" ADD CONSTRAINT "enrolled_courses_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "enrolled_courses" ADD CONSTRAINT "enrolled_courses_course_id_fkey" FOREIGN KEY ("course_id") REFERENCES "course"("course_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "completed_lessons" ADD CONSTRAINT "completed_lessons_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "completed_lessons" ADD CONSTRAINT "completed_lessons_lesson_id_fkey" FOREIGN KEY ("lesson_id") REFERENCES "lesson"("lesson_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "completed_quizzes" ADD CONSTRAINT "completed_quizzes_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "user"("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "completed_quizzes" ADD CONSTRAINT "completed_quizzes_quiz_id_fkey" FOREIGN KEY ("quiz_id") REFERENCES "quiz"("quiz_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
