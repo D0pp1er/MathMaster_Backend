@@ -284,10 +284,10 @@ async function getLessonStatusByTopic (topicId, language, userId) {
   console.log(lessonMap)
   return lessonMap
 }
-
+// issue here
 async function getCourseOutline (userID, courseId, language) {
   try {
-    const courseOutline = await prisma.course.findUnique({
+    const courseOutline = await prisma.course.findMany({
       where: {
         course_id: courseId
       },
@@ -317,20 +317,27 @@ async function getCourseOutline (userID, courseId, language) {
       }
 
     })
-    // console.log(courseOutline)
-    const topics = await Promise.all(courseOutline.topic.map(async (topic) => {
-      const id = topic.topic_id
-      const name = topic.topic_content[0].name
-      const description = topic.topic_content[0].description
-      const lessons = await getLessonStatusByTopic(id, language, userID)
-      return {
-        id,
-        name,
-        description,
-        lessons
+
+    async function mapCourseOutline (courseOutline) {
+      if (courseOutline && Array.isArray(courseOutline)) {
+        // console.log("courseOutline", courseOutline)
+        const topics = await Promise.all(courseOutline.map(async (topic) => {
+          const id = topic.topic_id
+          const name = topic.topic_content[0].name
+          const description = topic.topic_content[0].description
+          return {
+            id,
+            name,
+            description
+          }
+        }))
+        return topics
+      } else {
+        throw new Error('Invalid courseOutline')
       }
-    }))
-    return topics
+    }
+    return mapCourseOutline(courseOutline[0].topic)
+    // return topics
   } catch (error) {
     console.error('Error retrieving course outline:', error)
     throw error

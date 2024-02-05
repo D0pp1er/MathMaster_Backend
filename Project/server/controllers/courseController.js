@@ -13,7 +13,7 @@ const getCourseById = async (req, res) => {
   // console.log('\ncourse id is', req.params.courseId)
 
   const courseId = parseInt(req.params.courseId, 10) // Typecast to integer
-
+  // getcoursebyid takes input of userId, courseId, and language
   const course = await courserepository.getCourseById(3, courseId, 'English')
 
   res.send(course)
