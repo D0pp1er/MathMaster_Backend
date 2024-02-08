@@ -39,7 +39,7 @@ const swaggerUi = require('swagger-ui-express')
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 
-const pool = require(path.join(__dirname, '/config/db.config.js'))
+// const pool = require(path.join(__dirname, '/config/db.config.js'))
 
 const app = express()
 
@@ -48,15 +48,15 @@ app.use(cors())
 const PORT = process.env.PORT || 9000
 
 // Functions
-const getProducts = (req, res) => {
-  pool.query('SELECT * FROM products', (error, products) => {
-    if (error) {
-      console.log(error)
-      throw error
-    }
-    res.status(200).json(products.rows)
-  })
-}
+// const getProducts = (req, res) => {
+//   pool.query('SELECT * FROM products', (error, products) => {
+//     if (error) {
+//       console.log(error)
+//       throw error
+//     }
+//     res.status(200).json(products.rows)
+//   })
+// }
 
 // Here you can add your routes
 // Here's an example
@@ -64,7 +64,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.get('/products', getProducts)
+// app.get('/products', getProducts)
 
 // main routes
 app.use('/api/courses', courseRoutes)
