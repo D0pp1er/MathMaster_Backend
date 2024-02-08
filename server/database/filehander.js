@@ -18,16 +18,20 @@ function readFileData (filePath) {
 }
 
 // console.log(readFileData('./prismaclient.js')) // Should return the content of the file 'filehander.js'
-console.log(readFileData('../contents/published/language_1/course_1/topic_1/abstraction_1/lesson_1.txt')) // Should return the content of the file 'filehander.js'
+// console.log(readFileData('../contents/published/language_1/course_1/topic_1/abstraction_1/lesson_1.txt')) // Should return the content of the file 'filehander.js'
 
 function writeFile (relativePath, content) {
   try {
     // Create any necessary directories
-    const absFilePath = convertToAbsolutePath(relativePath)
-    const dirPath = path.dirname(relativePath)
-    fs.mkdirSync(dirPath, { recursive: true })
-    console.log(`Directory '${dirPath}' created successfully.`)
+    // const dirp = relativePath.substring(2)
+    const dirPath = path.dirname(relativePath) // Remove the '../' from the relative path
+    // console.log(dirPath)
+    const absdirPath = convertToAbsolutePath(dirPath)
+    fs.mkdirSync(absdirPath, { recursive: true })
+    // console.log(`Directory '${absdirPath}' created successfully.`)
     // Write content to the file
+    const absFilePath = convertToAbsolutePath(relativePath)
+
     fs.writeFileSync(absFilePath, content)
     console.log(`File '${relativePath}' created successfully.`)
   } catch (error) {

@@ -1,3 +1,1 @@
-Project/server/prismarunner.sh
-Project/server/prisma/migrations/20240126135253_first_migration/migration.sql
-Project/server/node_modules/
+*.sh
