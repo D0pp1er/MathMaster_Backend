@@ -467,37 +467,37 @@ async function getCourseById (userID, courseId, language) {
   }
 }
 
-async function getTotalXPofCourseFromLessonAndQuiz (courseId) {
-  try {
-    const totalXPLesson = await prisma.lesson.findMany({
-      where: {
-        topic: {
-          course_id: courseId
-        }
-      },
-      select: {
-        XP: true
-      }
-    })
-    const toalXPQuiz = await prisma.quiz.findMany({
-      where: {
-        topic: {
-          course_id: courseId
-        }
-      },
-      select: {
-        XP: true
-      }
-    })
-    let totalXPofCourse = totalXPLesson.reduce((total, lesson) => total + lesson.XP, 0)
-    totalXPofCourse += toalXPQuiz.reduce((total, quiz) => total + quiz.XP, 0)
+// async function getTotalXPofCourseFromLessonAndQuiz (courseId) {
+//   try {
+//     const totalXPLesson = await prisma.lesson.findMany({
+//       where: {
+//         topic: {
+//           course_id: courseId
+//         }
+//       },
+//       select: {
+//         XP: true
+//       }
+//     })
+//     const toalXPQuiz = await prisma.quiz.findMany({
+//       where: {
+//         topic: {
+//           course_id: courseId
+//         }
+//       },
+//       select: {
+//         XP: true
+//       }
+//     })
+//     let totalXPofCourse = totalXPLesson.reduce((total, lesson) => total + lesson.XP, 0)
+//     totalXPofCourse += toalXPQuiz.reduce((total, quiz) => total + quiz.XP, 0)
 
-    return totalXPofCourse
-  } catch (error) {
-    console.error('Error retrieving total XP of course from lesson and quiz:', error)
-    throw error
-  }
-}
+//     return totalXPofCourse
+//   } catch (error) {
+//     console.error('Error retrieving total XP of course from lesson and quiz:', error)
+//     throw error
+//   }
+// }
 
 async function getTotalEnrolledUsers (courseId) {
   try {
