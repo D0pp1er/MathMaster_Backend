@@ -85,7 +85,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: `https://math-master-backend2.vercel.app/${PORT}`
+        url: 'https://math-master-backend2.vercel.app'
       }
     ]
   },
