@@ -83,7 +83,7 @@ const router = express.Router()
  *         description: Internal Server Error
  */
 router.get('/', courseController.getAllCourses)
-
+// done
 /**
  * @swagger
  * /api/courses/{courseId}:
@@ -185,7 +185,7 @@ router.get('/', courseController.getAllCourses)
  *         description: Internal Server Error
  */
 router.get('/:courseId', courseController.getCourseById)
-
+//  done
 /**
  * @swagger
  * /api/courses/{courseId}/outline:
@@ -294,7 +294,7 @@ router.get('/:courseId', courseController.getCourseById)
  *         description: Internal Server Error
  */
 router.get('/:courseId/outline', courseController.getCourseOutline)
-
+//  done
 /**
  * @swagger
  * /api/courses/create:

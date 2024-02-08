@@ -467,7 +467,248 @@ async function getCourseById (userID, courseId, language) {
   }
 }
 
+async function getTotalXPofCourseFromLessonAndQuiz (courseId) {
+  try {
+    const totalXPLesson = await prisma.lesson.findMany({
+      where: {
+        topic: {
+          course_id: courseId
+        }
+      },
+      select: {
+        XP: true
+      }
+    })
+    const toalXPQuiz = await prisma.quiz.findMany({
+      where: {
+        topic: {
+          course_id: courseId
+        }
+      },
+      select: {
+        XP: true
+      }
+    })
+    let totalXPofCourse = totalXPLesson.reduce((total, lesson) => total + lesson.XP, 0)
+    totalXPofCourse += toalXPQuiz.reduce((total, quiz) => total + quiz.XP, 0)
+
+    return totalXPofCourse
+  } catch (error) {
+    console.error('Error retrieving total XP of course from lesson and quiz:', error)
+    throw error
+  }
+}
+
+async function getTotalEnrolledUsers (courseId) {
+  try {
+    const totalEnrolledUsers = await prisma.enrolled_courses.count({
+      where: {
+        course_id: courseId
+      }
+    })
+    return totalEnrolledUsers
+  } catch (error) {
+    console.error('Error retrieving total enrolled users:', error)
+    throw error
+  }
+}
+
+async function getCourseRating (courseId) {
+  try {
+    const courseRating = await prisma.course.findUnique({
+      where: {
+        course_id: courseId
+      },
+      select: {
+        course_rating:
+        {
+          select: {
+            rating: true
+          }
+        }
+      }
+    })
+    const ratingsCount = {
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 0,
+      5: 0
+    }
+
+    courseRating.course_rating.forEach(rating => {
+      ratingsCount[rating.rating] += 1
+    })
+
+    return ratingsCount
+
+    // return courseRating
+  } catch (error) {
+    console.error('Error retrieving course rating:', error)
+    throw error
+  }
+}
+async function getUserRating (userId, courseId) {
+  try {
+    const userRating = await prisma.course_rating.findFirst({
+      where: {
+        user_id: userId,
+        course_id: courseId
+      },
+      select: {
+        rating: true
+      }
+    })
+    return userRating.rating
+  } catch (error) {
+    console.error('Error retrieving user rating:', error)
+    throw error
+  }
+}
+
+async function getCourseOverallOutlinebyID (userID, courseId, language) {
+  try {
+    const course = await prisma.course.findUnique({
+      where: {
+        course_id: courseId
+      },
+      select: {
+        course_id: true,
+        picture: true,
+        course_content:
+        {
+          where: {
+            language: {
+              name: language
+            }
+          },
+          select: {
+            name: true,
+            description: true
+          }
+        },
+        type:
+        {
+          select: {
+            name: true
+          }
+        },
+        course_level:
+        {
+          select: {
+            name: true
+          }
+        },
+        estimated_time: true
+      }
+    })
+    const courseauthors = await getAuthorsByCourseAndLanguage(course.course_id, language)
+    const getUserProgressStat = await getUserProgress(userID, courseId)
+    const lessonAndQuizCount = await getLessonAndQuizCount(courseId, language)
+    const enrolledUsers = await getTotalEnrolledUsers(courseId)
+    const rating = await getCourseRating(courseId)
+    const myRating = await getUserRating(userID, courseId)
+    const result = {
+      id: course.course_id,
+      name: course.course_content[0].name,
+      type: course.type.name,
+      difficulty: course.course_level.name,
+      estimatedTime: course.estimated_time,
+      image: course.picture,
+      description: course.course_content[0].description,
+      authors: courseauthors,
+      lessonCount: lessonAndQuizCount.lessonCount,
+      quizCount: lessonAndQuizCount.quizCount,
+      lessonCompleted: getUserProgressStat.completedLessons,
+      quizCompleted: getUserProgressStat.completedQuizzes,
+      enrollmentCount: enrolledUsers,
+      ratings: rating,
+      isEnrolled: getUserProgressStat.enrolled,
+      myRating
+
+    }
+    return result
+  } catch (error) {
+    console.error('Error retrieving course overall outline by ID:', error)
+    throw error
+  }
+}
+
+async function enrollCourse (userId, courseId) {
+  try {
+    const enrolledCourse = await prisma.enrolled_courses.create({
+      data: {
+        user_id: userId,
+        course_id: courseId,
+        timestamp: new Date()
+
+      }
+    })
+    return enrolledCourse
+  } catch (error) {
+    console.error('Error enrolling course:', error)
+    throw error
+  }
+}
+
+async function rateCourse (userId, courseId, rating) {
+  try {
+    const isEnrolled = await prisma.enrolled_courses.findFirst({
+      where: {
+        user_id: userId,
+        course_id: courseId
+      }
+    })
+    if (!isEnrolled) {
+      const message = 'User is not enrolled in the course'
+      throw new Error(message)
+    }
+    const existingRating = await prisma.course_rating.findUnique({
+      where: {
+        course_id_user_id: {
+
+          user_id: userId,
+          course_id: courseId
+        }
+
+      }
+    })
+
+    if (existingRating) {
+      existingRating.rating = rating
+      const updatedRating = await prisma.course_rating.update({
+        where: {
+          course_id_user_id: {
+
+            user_id: userId,
+            course_id: courseId
+          }
+        },
+        data: {
+          rating
+        }
+      })
+      return updatedRating
+    } else {
+      const newRating = await prisma.course_rating.create({
+        data: {
+          user_id: userId,
+          course_id: courseId,
+          rating
+        }
+      })
+      return newRating
+    }
+  } catch (error) {
+    console.error('Error rating course:', error)
+    throw error
+  }
+}
+
 module.exports = {
   getAllCourses,
-  getCourseById
+  getCourseById,
+  getCourseOverallOutlinebyID,
+  enrollCourse,
+  rateCourse
 }

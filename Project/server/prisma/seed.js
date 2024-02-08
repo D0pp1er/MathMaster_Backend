@@ -118,6 +118,47 @@ async function addCourse () {
 //         await prisma.$disconnect()
 //     })
 
+async function addCourseRating () {
+  await prisma.course_rating.createMany({
+    data: [{
+      user_id: 3,
+      course_id: 1,
+      rating: 4,
+      feedback: 'Interesting'
+    },
+    {
+      user_id: 3,
+      course_id: 2,
+      rating: 5,
+      feedback: 'Awesome'
+    },
+    {
+      user_id: 3,
+      course_id: 3,
+      rating: 3,
+      feedback: 'Good'
+    },
+    {
+      user_id: 1,
+      course_id: 1,
+      rating: 4,
+      feedback: 'Interesting'
+    },
+    {
+      user_id: 1,
+      course_id: 2,
+      rating: 5,
+      feedback: 'Awesome'
+    },
+    {
+      user_id: 1,
+      course_id: 3,
+      rating: 3,
+      feedback: 'Good'
+    }]
+  })
+}
+
 async function addLanguage () {
   await prisma.language.createMany({
     data: [{
@@ -492,6 +533,7 @@ async function seedData () {
     await addEnrolledCourse()
     await addCompletedLesson()
     await addCompletedQuiz()
+    await addCourseRating()
   } catch (error) {
     console.error(error)
   }

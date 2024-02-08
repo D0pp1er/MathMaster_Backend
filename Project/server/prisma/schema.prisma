@@ -25,6 +25,7 @@ model user {
   enrolled_courses enrolled_courses[]
   completed_lessons completed_lessons[]
   completed_quizzes completed_quizzes[]
+  course_rating course_rating[]
 }
 
 model course_type {
@@ -52,9 +53,19 @@ model course {
   prerequisite_course prerequisite_course[]
   topic           topic[]
   enrolled_courses enrolled_courses[]
+  course_rating   course_rating[]
 
 }
 
+model course_rating {
+  course_id       Int
+  course          course  @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
+  user_id         Int
+  user            user    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+  rating          Int    @default(0)
+  feedback        String?
+  @@id([course_id, user_id])
+}
 
 model language {
   language_id     Int     @id @default(autoincrement())

@@ -20,8 +20,12 @@ const getCourseById = async (req, res) => {
 }
 
 // Function to get the course outline
-const getCourseOutline = (req, res) => {
-  // Your code here
+const getCourseOutline = async (req, res) => {
+  const courseId = parseInt(req.params.courseId, 10) // Typecast to integer
+  // getcoursebyid takes input of userId, courseId, and language
+  const course = await courserepository.getCourseOverallOutlinebyID(3, courseId, 'English')
+
+  res.send(course)
 }
 
 // Function to create a new course
@@ -30,13 +34,36 @@ const createCourse = (req, res) => {
 }
 
 // Function to enroll in a course
-const enrollCourse = (req, res) => {
+const enrollCourse = async (req, res) => {
   // Your code here
+  const courseId = parseInt(req.params.courseId, 10) // Typecast to integer
+  // const userId = req.body.userId // Assuming userId is provided in the request body
+  try {
+    // Call the enrollCourse function from the courserepository
+    // await courserepository.enrollCourse(userId, courseId)
+    await courserepository.enrollCourse(2, courseId)
+
+    res.send('Enrollment successful')
+  } catch (error) {
+    res.status(500).send('Error enrolling in the course')
+  }
 }
 
 // Function to rate a course
-const rateCourse = (req, res) => {
-  // Your code here
+const rateCourse = async (req, res) => {
+  const courseId = parseInt(req.params.courseId, 10) // Typecast to integer
+  // const rating = req.body.rating // Assuming rating is provided in the request body
+  // const userId = req.body.userId // Assuming userId is provided in the request body
+
+  try {
+    // Call the rateCourse function from the courserepository
+    // await courserepository.rateCourse(userId, courseId, rating)
+    await courserepository.rateCourse(2, courseId, 1)
+
+    res.send('Course rated successfully')
+  } catch (error) {
+    res.status(500).send('Error rating the course' + error.message)
+  }
 }
 
 // Function to update a course by ID
