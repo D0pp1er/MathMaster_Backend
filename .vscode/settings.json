@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/fa95adf2-5d85-43ec-bcab-13e1b13a757f/resourceGroups/MathMaster/providers/Microsoft.Web/sites/math-master",
+    "appService.deploySubpath": "server"
+}
