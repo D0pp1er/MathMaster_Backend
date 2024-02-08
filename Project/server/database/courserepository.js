@@ -255,36 +255,91 @@ async function hasUserCompletedLessons (userId, lessonId) {
 
   return !!completedLessons
 }
-async function getLessonStatusByTopic (topicId, language, userId) {
-  const lessons = await prisma.lesson.findMany({
+
+// issue here
+async function hasUserCompletedQuizzes (userId, quizId) {
+  const completedQuizzes = await prisma.completed_quizzes.findFirst({
     where: {
-      topic_id: topicId,
-      lesson_content: {
-        some: {
-          language: {
-            name: language
+      user_id: userId,
+      quiz_id: quizId
+    }
+  })
+
+  return !!completedQuizzes
+}
+async function getQuizByTopicID (userID, topicId, language) {
+  try {
+    const quizzes = await prisma.quiz.findMany({
+      where: {
+        topic_id: topicId,
+        quiz_content: {
+          some: {
+            language: {
+              name: language
+            }
+          }
+        }
+      },
+      select: {
+        quiz_id: true,
+        quiz_content: {
+          select: {
+            name: true
           }
         }
       }
-    },
-    select: {
-      lesson_id: true,
-      lesson_content: {
-        select: {
-          name: true
+    })
+    const result = await Promise.all(quizzes.map(async (quiz) => {
+      const completedqstat = await hasUserCompletedQuizzes(userID, quiz.quiz_id)
+      return {
+        id: quiz.quiz_id,
+        name: quiz.quiz_content[0].name,
+        completed: completedqstat
+      }
+    }))
+    return result
+  } catch (error) {
+    console.error('Error retrieving quizzes by topic ID:', error)
+    throw error
+  }
+}
+
+async function getLessonByTopicID (userID, topicId, language) {
+  try {
+    const lessons = await prisma.lesson.findMany({
+      where: {
+        topic_id: topicId,
+        lesson_content: {
+          some: {
+            language: {
+              name: language
+            }
+          }
+        }
+      },
+      select: {
+        lesson_id: true,
+        lesson_content: {
+          select: {
+            name: true
+          }
         }
       }
-    }
-  })
-  const lessonMap = lessons.map(lesson => ({
-    id: lesson.lesson_id,
-    name: lesson.lesson_content.name
-  }))
-
-  console.log(lessonMap)
-  return lessonMap
+    })
+    const result = await Promise.all(lessons.map(async (lesson) => {
+      const completedlstat = await hasUserCompletedLessons(userID, lesson.lesson_id)
+      return {
+        id: lesson.lesson_id,
+        name: lesson.lesson_content[0].name,
+        completed: completedlstat
+      }
+    }))
+    return result
+  } catch (error) {
+    console.error('Error retrieving lessons by topic ID:', error)
+    throw error
+  }
 }
-// issue here
 async function getCourseOutline (userID, courseId, language) {
   try {
     const courseOutline = await prisma.course.findMany({
@@ -325,10 +380,38 @@ async function getCourseOutline (userID, courseId, language) {
           const id = topic.topic_id
           const name = topic.topic_content[0].name
           const description = topic.topic_content[0].description
+          const lessons = await getLessonByTopicID(userID, id, language)
+          const quizes = await getQuizByTopicID(userID, id, language)
+
+          const isCourseCompleted = (courseOutline) => {
+            for (const topic of courseOutline) {
+              if (!courseOutline) {
+                return false
+              }
+              if (!topic.lessons || !topic.quizzes) {
+                return false
+              }
+              for (const lesson of topic.lessons) {
+                if (!lesson.completed) {
+                  return false
+                }
+              }
+              for (const quiz of topic.quizzes) {
+                if (!quiz.completed) {
+                  return false
+                }
+              }
+            }
+            return true
+          }
+
           return {
             id,
             name,
-            description
+            description,
+            completed: isCourseCompleted(courseOutline),
+            lessons,
+            quizes
           }
         }))
         return topics

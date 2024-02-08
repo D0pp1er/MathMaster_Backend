@@ -357,6 +357,11 @@ async function addQuiz () {
         topic_id: 1,
         XP: 100,
         Total_score: 100
+      },
+      {
+        topic_id: 1,
+        XP: 80,
+        Total_score: 100
       }
 
     ]
@@ -377,7 +382,14 @@ async function addQuizContent () {
       {
         quiz_id: 1,
         content: 'Quiz is a form of game or mind sport, attempt to answer questions correctly.',
-        language_id: 1
+        language_id: 1,
+        name: 'Quiz 1'
+      },
+      {
+        quiz_id: 2,
+        content: 'Quiz is a form of game or mind sport, attempt to answer questions correctly.',
+        language_id: 1,
+        name: 'Quiz 2'
       }
 
     ]

@@ -177,6 +177,7 @@ model definition {
   model quiz_content {
     quiz_id               Int
     quiz                  quiz    @relation(fields: [quiz_id], references: [quiz_id], onDelete: NoAction, onUpdate: NoAction)
+    name                  String  @db.VarChar(255)
     content               String
     language_id           Int
     language              language  @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
