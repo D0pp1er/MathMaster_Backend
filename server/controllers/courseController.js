@@ -3,7 +3,7 @@ const courserepository = require('../database/courserepository')
 
 // Function to get all courses
 const getAllCourses = async (req, res) => {
-  const courses = await courserepository.getAllCourses(3, 'English')
+  const courses = await courserepository.getAllCourses(2, 'English')
   // console.log(courseNames)
   res.send(courses)
 }
@@ -14,7 +14,7 @@ const getCourseById = async (req, res) => {
 
   const courseId = parseInt(req.params.courseId, 10) // Typecast to integer
   // getcoursebyid takes input of userId, courseId, and language
-  const course = await courserepository.getCourseById(3, courseId, 'English')
+  const course = await courserepository.getCourseById(2, courseId, 'English')
 
   res.send(course)
 }
@@ -23,7 +23,7 @@ const getCourseById = async (req, res) => {
 const getCourseOutline = async (req, res) => {
   const courseId = parseInt(req.params.courseId, 10) // Typecast to integer
   // getcoursebyid takes input of userId, courseId, and language
-  const course = await courserepository.getCourseOverallOutlinebyID(3, courseId, 'English')
+  const course = await courserepository.getCourseOverallOutlinebyID(2, courseId, 'English')
 
   res.send(course)
 }
