@@ -7,12 +7,18 @@ generator client {
 //   url      = env("DATABASE_URL")
 // }
 // prisma/schema.prisma
+// for neon tech
+// datasource db {
+//   provider  = "postgresql"
+//   url  	    = env("DATABASE_URL")
+//   directUrl = env("DIRECT_URL")
+// }
+// for vercel
 datasource db {
-  provider  = "postgresql"
-  url  	    = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
-
 // model products {
 //   product_id  Int    @id @default(autoincrement())
 //   name        String @db.VarChar(50)
