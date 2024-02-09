@@ -7,7 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
     "lint": "eslint .",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "start": "node index.js",
+    "deploy": "npm run start"
+
   },
   "prisma": {
     "seed": "node prisma/seed.js"
