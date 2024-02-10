@@ -337,14 +337,14 @@ const lessonController = require('../controllers/lessonController')
  *         description: Internal Server Error
  */
 router.get('/:lessonId', lessonController.getLessonById)
-
+//  done
+router.post('/:lessonId/rate', lessonController.rateLesson)
+// done
+router.post('/:lessonId/complete', lessonController.completeLesson)
+// done
 router.post('/create', (req, res) => {
   res.send('Create a new lesson')
 })
-
-router.post('/:lessonId/rate', lessonController.rateLesson)
-
-router.post('/:lessonId/complete', lessonController.completeLesson)
 
 router.post('/:lessonId/publish', (req, res) => {
   res.send('publish a lesson')

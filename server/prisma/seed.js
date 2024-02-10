@@ -350,7 +350,7 @@ async function addLessonContent () {
         name: 'Lesson 1',
         language_id: 1,
         abstraction_level_id: 1,
-        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+        content: '../contents/published/language_English/lessons/abstraction_Novice/lesson_1.txt'
       }
 
     ]
@@ -370,12 +370,12 @@ async function addDefinition () {
     data: [
       {
         name: 'linear',
-        content: 'In mathematics, a linear function is a polynomial function of degree one. It has the form y = mx + b, where m is the slope and b is the y-intercept.',
+        content: '../contents/published/language_English/definitions/definition_1.txt',
         language_id: 1
       },
       {
         name: 'slope',
-        content: 'In mathematics, slope refers to the steepness or incline of a line. It represents the ratio of the vertical change (rise) to the horizontal change (run) between two points on the line.',
+        content: '../contents/published/language_English/definitions/definition_2.txt',
         language_id: 1
       }
 

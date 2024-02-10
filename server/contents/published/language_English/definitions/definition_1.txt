@@ -1,0 +1,1 @@
+In mathematics, a linear function is a polynomial function of degree one. It has the form y = mx + b, where m is the slope and b is the y-intercept.

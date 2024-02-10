@@ -82,8 +82,7 @@ const router = express.Router()
  *       500:
  *         description: Internal Server Error
  */
-router.get('/', courseController.getAllCourses)
-// done
+
 /**
  * @swagger
  * /api/courses/{courseId}:
@@ -184,8 +183,7 @@ router.get('/', courseController.getAllCourses)
  *       500:
  *         description: Internal Server Error
  */
-router.get('/:courseId', courseController.getCourseById)
-//  done
+
 /**
  * @swagger
  * /api/courses/{courseId}/outline:
@@ -293,8 +291,7 @@ router.get('/:courseId', courseController.getCourseById)
  *       500:
  *         description: Internal Server Error
  */
-router.get('/:courseId/outline', courseController.getCourseOutline)
-//  done
+
 /**
  * @swagger
  * /api/courses/create:
@@ -364,7 +361,6 @@ router.get('/:courseId/outline', courseController.getCourseOutline)
  *       500:
  *         description: Internal Server Error
  */
-router.post('/create', courseController.createCourse)
 
 /**
  * @swagger
@@ -403,7 +399,6 @@ router.post('/create', courseController.createCourse)
  *       500:
  *         description: Internal Server Error
  */
-router.post('/:courseId/enroll', courseController.enrollCourse)
 
 /**
  * @swagger
@@ -449,7 +444,6 @@ router.post('/:courseId/enroll', courseController.enrollCourse)
  *       500:
  *         description: Internal Server Error
  */
-router.post('/:courseId/rate', courseController.rateCourse)
 
 /**
  * @swagger
@@ -518,7 +512,6 @@ router.post('/:courseId/rate', courseController.rateCourse)
  *       500:
  *         description: Internal Server Error
  */
-router.patch('/:courseId/update', courseController.updateCourseById)
 
 /**
  * @swagger
@@ -554,7 +547,6 @@ router.patch('/:courseId/update', courseController.updateCourseById)
  *       500:
  *         description: Internal Server Error
  */
-router.delete('/:courseId/delete', courseController.deleteCourseById)
 
 /**
  * @swagger
@@ -590,6 +582,20 @@ router.delete('/:courseId/delete', courseController.deleteCourseById)
  *       500:
  *         description: Internal Server Error
  */
+
+router.get('/', courseController.getAllCourses)
+// done
+router.get('/:courseId', courseController.getCourseById)
+//  done
+router.get('/:courseId/outline', courseController.getCourseOutline)
+//  done
+router.post('/:courseId/rate', courseController.rateCourse)
+// done
+router.post('/:courseId/enroll', courseController.enrollCourse)
+//  done
+router.post('/create', courseController.createCourse)
+router.delete('/:courseId/delete', courseController.deleteCourseById)
+router.patch('/:courseId/update', courseController.updateCourseById)
 router.post('/:courseId/publish', courseController.publishCourse)
 
 module.exports = router

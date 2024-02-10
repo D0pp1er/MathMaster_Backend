@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-
+const definitioncontroller = require('../controllers/definitionController')
 /**
  * @swagger
  * tags:
@@ -42,13 +42,6 @@ const router = express.Router()
  *       500:
  *         description: Internal Server Error
  */
-
-// GET all definitions
-router.get('/', (req, res) => {
-  // Logic to fetch all definitions from the database
-  // ...
-  res.send('Get all definitions')
-})
 
 /**
  * @swagger
@@ -93,13 +86,6 @@ router.get('/', (req, res) => {
  *       500:
  *         description: Internal Server Error
  */
-// GET a particular definition by id
-router.get('/:definitionId', (req, res) => {
-  const definitionId = req.params.definitionId
-  // Logic to fetch a definition by id from the database
-  // ...
-  res.send(`Get definition with id ${definitionId}`)
-})
 
 /**
  * @swagger
@@ -164,13 +150,6 @@ router.get('/:definitionId', (req, res) => {
  *       500:
  *         description: Internal Server Error
  */
-// UPDATE a definition by id
-router.put('/:definitionId/update', (req, res) => {
-  const definitionId = req.params.definitionId
-  // Logic to update a definition by id in the database
-  // ...
-  res.send(`Update definition with id ${definitionId}`)
-})
 
 /**
  * @swagger
@@ -234,12 +213,7 @@ router.put('/:definitionId/update', (req, res) => {
  *       500:
  *         description: Internal Server Error
  */
-// CREATE a new definition
-router.post('/create', (req, res) => {
-  // Logic to create a new definition in the database
-  // ...
-  res.send('Create a new definition')
-})
+
 /**
  * @swagger
  * /api/definitions/{definitionId}/delete:
@@ -274,13 +248,6 @@ router.post('/create', (req, res) => {
  *         description: Internal Server Error
  */
 
-// DELETE a definition by id
-router.delete('/:definitionId/delete', (req, res) => {
-  const definitionId = req.params.definitionId
-  // Logic to delete a definition by id from the database
-  // ...
-  res.send(`Delete definition with id ${definitionId}`)
-})
 /**
  * @swagger
  * /api/definitions/{definitionId}/publish:
@@ -314,6 +281,33 @@ router.delete('/:definitionId/delete', (req, res) => {
  *       500:
  *         description: Internal Server Error
  */
+
+// GET all definitions
+router.get('/', definitioncontroller.getAllDefinitions)
+
+// GET a particular definition by id
+router.get('/:definitionId', definitioncontroller.getDefinitionById)
+
+// UPDATE a definition by id
+router.put('/:definitionId/update', (req, res) => {
+  const definitionId = req.params.definitionId
+  // Logic to update a definition by id in the database
+  // ...
+  res.send(`Update definition with id ${definitionId}`)
+})
+// CREATE a new definition
+router.post('/create', (req, res) => {
+  // Logic to create a new definition in the database
+  // ...
+  res.send('Create a new definition')
+})
+// DELETE a definition by id
+router.delete('/:definitionId/delete', (req, res) => {
+  const definitionId = req.params.definitionId
+  // Logic to delete a definition by id from the database
+  // ...
+  res.send(`Delete definition with id ${definitionId}`)
+})
 // Publish a definition by id
 router.post('/:definitionId/publish', (req, res) => {
   const definitionId = req.params.definitionId
@@ -321,5 +315,4 @@ router.post('/:definitionId/publish', (req, res) => {
   // ...
   res.send(`Publish definition with id ${definitionId}`)
 })
-
 module.exports = router
