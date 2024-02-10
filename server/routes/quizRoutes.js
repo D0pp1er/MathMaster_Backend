@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-
+const quizController = require('../controllers/quizController')
 /**
  * @swagger
  * tags:
@@ -42,13 +42,6 @@ const router = express.Router()
  *       500:
  *         description: Internal Server Error
  */
-
-// GET all quizzes
-router.get('/', (req, res) => {
-  // Logic to fetch all quizzes from the database
-  // ...
-  res.send('Get all quizzes')
-})
 
 /**
  * @swagger
@@ -93,13 +86,6 @@ router.get('/', (req, res) => {
  *       500:
  *         description: Internal Server Error
  */
-// GET a particular definition by id
-router.get('/:quizId', (req, res) => {
-  const quizId = req.params.quizId
-  // Logic to fetch a definition by id from the database
-  // ...
-  res.send(`Get quiz with id ${quizId}`)
-})
 
 /**
  * @swagger
@@ -164,13 +150,6 @@ router.get('/:quizId', (req, res) => {
  *       500:
  *         description: Internal Server Error
  */
-// UPDATE a definition by id
-router.put('/:quizId/update', (req, res) => {
-  const quizId = req.params.quizId
-  // Logic to update a definition by id in the database
-  // ...
-  res.send(`Update quiz with id ${quizId}`)
-})
 
 /**
  * @swagger
@@ -230,12 +209,7 @@ router.put('/:quizId/update', (req, res) => {
  *       500:
  *         description: Internal Server Error
  */
-// CREATE a new quiz
-router.post('/create', (req, res) => {
-  // Logic to create a new quiz in the database
-  // ...
-  res.send('Create a new quiz')
-})
+
 /**
  * @swagger
  * /api/quizzes/{quizId}/delete:
@@ -270,13 +244,6 @@ router.post('/create', (req, res) => {
  *         description: Internal Server Error
  */
 
-// DELETE a quiz by id
-router.delete('/:quizId/delete', (req, res) => {
-  const quizId = req.params.quizId
-  // Logic to delete a definition by id from the database
-  // ...
-  res.send(`Delete quiz with id ${quizId}`)
-})
 /**
  * @swagger
  * /api/quizzes/{quizId}/publish:
@@ -310,12 +277,44 @@ router.delete('/:quizId/delete', (req, res) => {
  *       500:
  *         description: Internal Server Error
  */
-// Publish a definition by id
-router.post('/:definitionId/publish', (req, res) => {
-  const definitionId = req.params.definitionId
-  // Logic to publish a definition by id in the database
+
+// GET all quizzes
+router.get('/', (req, res) => {
+  // Logic to fetch all quizzes from the database
   // ...
-  res.send(`Publish definition with id ${definitionId}`)
+  res.send('Get all quizzes')
 })
 
+// GET a particular definition by id
+router.get('/:quizId', quizController.getQuizById)
+
+// UPDATE a definition by id
+router.put('/:quizId/update', (req, res) => {
+  const quizId = req.params.quizId
+  // Logic to update a definition by id in the database
+  // ...
+  res.send(`Update quiz with id ${quizId}`)
+})
+
+// CREATE a new quiz
+router.post('/create', (req, res) => {
+  // Logic to create a new quiz in the database
+  // ...
+  res.send('Create a new quiz')
+})
+// DELETE a quiz by id
+router.delete('/:quizId/delete', (req, res) => {
+  const quizId = req.params.quizId
+  // Logic to delete a definition by id from the database
+  // ...
+  res.send(`Delete quiz with id ${quizId}`)
+})
+
+// Publish a definition by id
+router.post('/:quizId/publish', (req, res) => {
+  const quizId = req.params.quizId
+  // Logic to publish a definition by id in the database
+  // ...
+  res.send(`Publish definition with id ${quizId}`)
+})
 module.exports = router

@@ -92,19 +92,19 @@ async function addCourse () {
     data: [{
       level_id: 1,
       type_id: 1,
-      picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg',
+      picture: 'https://ibb.co/V9jCqG6',
       estimated_time: 10
     },
     {
       level_id: 2,
       type_id: 1,
-      picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg',
+      picture: 'https://ibb.co/V9jCqG6',
       estimated_time: 24
     },
     {
       level_id: 1,
       type_id: 2,
-      picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg',
+      picture: 'https://ibb.co/V9jCqG6',
       estimated_time: 20
     }]
   })
@@ -422,13 +422,13 @@ async function addQuizContent () {
     data: [
       {
         quiz_id: 1,
-        content: 'Quiz is a form of game or mind sport, attempt to answer questions correctly.',
+        content: '../contents/published/language_English/quizzes/quiz_1.txt',
         language_id: 1,
         name: 'Quiz 1'
       },
       {
         quiz_id: 2,
-        content: 'Quiz is a form of game or mind sport, attempt to answer questions correctly.',
+        content: '../contents/published/language_English/quizzes/quiz_2.txt',
         language_id: 1,
         name: 'Quiz 2'
       }

@@ -24,6 +24,7 @@ const path = require('path')
 const dotenv = require('dotenv')
 const express = require('express')
 const cors = require('cors')
+const bodyParser = require('body-parser')
 
 // routes
 const courseRoutes = require('./routes/courseRoutes')
@@ -42,6 +43,8 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 // const pool = require(path.join(__dirname, '/config/db.config.js'))
 
 const app = express()
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 app.use(cors())
 

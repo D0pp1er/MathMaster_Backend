@@ -70,7 +70,10 @@ const rateCourse = async (req, res) => {
   try {
     // Call the rateCourse function from the courserepository
     // await courserepository.rateCourse(userId, courseId, rating)
-    await courserepository.rateCourse(2, courseId, 1)
+    // console.log(req.body)
+    const userRating = req.body.rating
+    // console.log('Rating is', userRating)
+    await courserepository.rateCourse(2, courseId, userRating)
 
     res.send('Course rated successfully')
   } catch (error) {
