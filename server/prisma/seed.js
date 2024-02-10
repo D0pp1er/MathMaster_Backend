@@ -1,5 +1,23 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
+async function addRoles () {
+  await prisma.role.createMany({
+    data: [
+      {
+        name: 'user'
+      },
+      {
+        name: 'author'
+      },
+      {
+        name: 'moderator'
+      },
+      {
+        name: 'admin'
+      }
+    ]
+  })
+}
 
 async function addUser () {
   await prisma.user.createMany({
@@ -9,7 +27,8 @@ async function addUser () {
       name: 'Shariful Islam',
       DOB: new Date('1998-12-12').toISOString(),
       picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg',
-      preferred_language_id: 1
+      preferred_language_id: 1,
+      role_id: 2
     },
     {
       email: 'asibrahmanbarbie.233@gmail.com',
@@ -17,7 +36,8 @@ async function addUser () {
       name: 'Asib Rahman',
       DOB: new Date('1998-12-12').toISOString(),
       picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg',
-      preferred_language_id: 1
+      preferred_language_id: 1,
+      role_id: 2
 
     },
     {
@@ -26,7 +46,8 @@ async function addUser () {
       name: 'John Doe',
       DOB: new Date('1998-12-12').toISOString(),
       picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg',
-      preferred_language_id: 1
+      preferred_language_id: 1,
+      role_id: 1
 
     }]
   })
@@ -518,12 +539,14 @@ async function addCompletedQuiz () {
 }
 async function seedData () {
   try {
+    await addRoles()
+    await addLanguage()
     await addUser()
     await addAuthor()
     await addCourseType()
     await addCourseLevel()
     await addCourse()
-    await addLanguage()
+
     await addCourseContent()
     await addPrerequisite()
     await addTopic()

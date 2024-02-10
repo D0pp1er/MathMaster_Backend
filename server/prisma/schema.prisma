@@ -26,6 +26,11 @@ datasource db {
 //   price       Float  @db.Real
 //   description String
 // }
+model role {
+  role_id   Int     @id @default(autoincrement())
+  name      String  @db.VarChar(50) @unique
+  user      user[]
+}
 
 model user {
   user_id   Int     @id @default(autoincrement())
@@ -37,6 +42,8 @@ model user {
   user_preferred_language language @relation(fields: [preferred_language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
   preferred_language_id Int @default(1)
   author    author?
+  role      role @relation(fields: [role_id], references: [role_id], onDelete: NoAction, onUpdate: NoAction)
+  role_id   Int @default(0)
   enrolled_courses enrolled_courses[]
   completed_lessons completed_lessons[]
   completed_quizzes completed_quizzes[]
