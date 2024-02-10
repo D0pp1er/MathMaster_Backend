@@ -28,6 +28,7 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cookieParser())
+app.use(cors())
 app.use((req, res, next) => {
   if (req.url.startsWith('/api/auth/')) {
     next()
@@ -43,7 +44,6 @@ app.use((req, res, next) => {
     })
   }
 })
-app.use(cors())
 
 const PORT = process.env.PORT || 9000
 
