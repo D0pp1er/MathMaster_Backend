@@ -27,7 +27,7 @@ const loginUser = async (req, res) => {
       sameSite: 'none',
       secure: true
     })
-    res.status(200).json({ user, message: 'Login successful' })
+    res.status(200).json({ user, status: 'success', message: 'Login was successful' })
   } catch (error) {
     res.status(500).send('Error logging in\t' + error.message)
   }
