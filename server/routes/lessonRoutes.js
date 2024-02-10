@@ -1,5 +1,7 @@
 const express = require('express')
 const router = express.Router()
+const lessonController = require('../controllers/lessonController')
+
 /**
  * @swagger
  * tags:
@@ -334,9 +336,7 @@ const router = express.Router()
  *       500:
  *         description: Internal Server Error
  */
-router.get('/:lessonId', (req, res) => {
-  res.send('Get a lesson')
-})
+router.get('/:lessonId', lessonController.getLessonById)
 
 router.post('/create', (req, res) => {
   res.send('Create a new lesson')

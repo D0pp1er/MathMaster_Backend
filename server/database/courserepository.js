@@ -559,6 +559,9 @@ async function getUserRating (userId, courseId) {
         rating: true
       }
     })
+    if (!userRating) {
+      return 0
+    }
     return userRating.rating
   } catch (error) {
     console.error('Error retrieving user rating:', error)

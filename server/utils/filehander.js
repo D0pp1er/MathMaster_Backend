@@ -43,3 +43,8 @@ function writeFile (relativePath, content) {
 const relativePathToFile = '../contents/published/language_1/course_1/topic_1/abstraction_2/lesson_1.txt'
 const fileContent = '// Your JavaScript code here\nconsole.log("Hello, world!");'
 writeFile(relativePathToFile, fileContent)
+
+module.exports = {
+  readFileData,
+  writeFile
+}
