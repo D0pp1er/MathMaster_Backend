@@ -1,5 +1,6 @@
 const prisma = require('./prismaclient')
 const filehander = require('../utils/filehander')
+const userrepository = require('./userrepository')
 
 async function getCompletionStatus (userId, lessonId) {
   const completionStatus = await prisma.completed_lessons.findUnique({
@@ -90,7 +91,8 @@ async function getLessonAuthor (lessonId, language, abstractionLevel) {
   return authors
 }
 
-async function getLessonById (userId, lessonId, language, abstractionLevel) {
+async function getLessonById (userId, lessonId, abstractionLevel) {
+  const language = await userrepository.getUserPreferredLanguage(userId)
   const lesson = await prisma.lesson.findUnique({
     where: {
       lesson_id: lessonId

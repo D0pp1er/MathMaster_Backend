@@ -7,7 +7,7 @@ const getLessonById = async (req, res) => {
   // const lesson = await lessonrepository.getLessonById(userId, lessonId, language, abstractionLevel)
   try {
     const lessonId = parseInt(req.params.lessonId, 10) // Typecast to integer
-    const lesson = await lessonrepository.getLessonById(3, lessonId, 'English', 'Novice')
+    const lesson = await lessonrepository.getLessonById(3, lessonId, 'Novice')
     res.send(lesson)
   } catch (error) {
     res.status(500).send('Error retrieving the lesson' + error.message)
@@ -40,7 +40,7 @@ const completeLesson = async (req, res) => {
   try {
     const lessonId = parseInt(req.params.lessonId, 10) // Typecast to integer
     // const lesson = await lessonrepository.completeLesson(userId, lessonId, completionStatus)
-    const lesson = await lessonrepository.completeLesson(3, lessonId)
+    const lesson = await lessonrepository.completeLesson(2, lessonId)
     res.send({ lesson, message: 'Lesson completed successfully' })
   } catch (error) {
     res.status(500).send('Error completing the lesson' + error.message)

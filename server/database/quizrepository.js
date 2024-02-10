@@ -1,7 +1,8 @@
 const prisma = require('./prismaclient')
 const filehander = require('../utils/filehander')
-
-async function getQuizzesById (quizId, language) {
+const userrepository = require('./userrepository')
+async function getQuizzesById (quizId, userId) {
+  const language = await userrepository.getUserPreferredLanguage(userId)
   const quiz = await prisma.quiz.findUnique({
     where: {
       quiz_id: quizId,

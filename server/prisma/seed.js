@@ -8,21 +8,26 @@ async function addUser () {
       password: '123456',
       name: 'Shariful Islam',
       DOB: new Date('1998-12-12').toISOString(),
-      picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg'
+      picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg',
+      preferred_language_id: 1
     },
     {
       email: 'asibrahmanbarbie.233@gmail.com',
       password: '123456',
       name: 'Asib Rahman',
       DOB: new Date('1998-12-12').toISOString(),
-      picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg'
+      picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg',
+      preferred_language_id: 1
+
     },
     {
       email: 'johndoe@anym.com',
       password: '123456',
       name: 'John Doe',
       DOB: new Date('1998-12-12').toISOString(),
-      picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg'
+      picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg',
+      preferred_language_id: 1
+
     }]
   })
 }

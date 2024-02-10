@@ -4,7 +4,7 @@ const courserepository = require('../database/courserepository')
 // Function to get all courses
 const getAllCourses = async (req, res) => {
   try {
-    const courses = await courserepository.getAllCourses(2, 'English')
+    const courses = await courserepository.getAllCourses(2)
     // console.log(courseNames)
     res.send(courses)
   } catch (error) {
@@ -18,8 +18,8 @@ const getCourseById = async (req, res) => {
 
   try {
     const courseId = parseInt(req.params.courseId, 10) // Typecast to integer
-    // getcoursebyid takes input of userId, courseId, and language
-    const course = await courserepository.getCourseById(2, courseId, 'English')
+    // getcoursebyid takes input of userId, courseId
+    const course = await courserepository.getCourseById(2, courseId)
 
     res.send(course)
   } catch (error) {
@@ -32,7 +32,7 @@ const getCourseOutline = async (req, res) => {
   try {
     const courseId = parseInt(req.params.courseId, 10) // Typecast to integer
     // getcoursebyid takes input of userId, courseId, and language
-    const course = await courserepository.getCourseOverallOutlinebyID(2, courseId, 'English')
+    const course = await courserepository.getCourseOverallOutlinebyID(2, courseId)
 
     res.send(course)
   } catch (error) {

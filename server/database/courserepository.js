@@ -1,5 +1,5 @@
 const prisma = require('./prismaclient')
-
+const userrepository = require('./userrepository')
 async function getUserProgress (userId, courseId) {
   try {
     const userProgress = await prisma.course.findUnique({
@@ -181,7 +181,8 @@ async function getAuthorsByCourseAndLanguage (courseId, languageName) {
   }
 }
 
-async function getAllCourses (userID, language) {
+async function getAllCourses (userID) {
+  const language = await userrepository.getUserPreferredLanguage(userID)
   try {
     const courses = await prisma.course.findMany(
       {
@@ -426,7 +427,8 @@ async function getCourseOutline (userID, courseId, language) {
   }
 }
 
-async function getCourseById (userID, courseId, language) {
+async function getCourseById (userID, courseId) {
+  const language = await userrepository.getUserPreferredLanguage(userID)
   try {
     const course = await prisma.course.findUnique({
       where: {
@@ -569,7 +571,8 @@ async function getUserRating (userId, courseId) {
   }
 }
 
-async function getCourseOverallOutlinebyID (userID, courseId, language) {
+async function getCourseOverallOutlinebyID (userID, courseId) {
+  const language = await userrepository.getUserPreferredLanguage(userID)
   try {
     const course = await prisma.course.findUnique({
       where: {

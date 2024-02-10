@@ -34,6 +34,8 @@ model user {
   email     String  @unique @db.VarChar(255)
   DOB       DateTime
   picture   String
+  user_preferred_language language @relation(fields: [preferred_language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
+  preferred_language_id Int @default(1)
   author    author?
   enrolled_courses enrolled_courses[]
   completed_lessons completed_lessons[]
@@ -89,6 +91,7 @@ model language {
   definition      definition[]
   quiz_content    quiz_content[]
   lesson_author   lesson_author[]
+  user            user[]
 
 }
 
