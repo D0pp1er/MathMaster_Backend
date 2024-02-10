@@ -3,7 +3,7 @@ name: Build and deploy Node.js app to Azure Web App - math-master
 on:
   push:
     branches:
-      - production
+      - production_azure
   workflow_dispatch:
 
 jobs:
