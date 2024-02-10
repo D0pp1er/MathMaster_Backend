@@ -37,13 +37,13 @@ model user {
   name      String  @db.VarChar(50)
   password  String
   email     String  @unique @db.VarChar(255)
-  DOB       DateTime
-  picture   String
+  DOB       DateTime?
+  picture   String @default("https://i.ibb.co/0jkPLQZ/avatar.png")
   user_preferred_language language @relation(fields: [preferred_language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
   preferred_language_id Int @default(1)
   author    author?
   role      role @relation(fields: [role_id], references: [role_id], onDelete: NoAction, onUpdate: NoAction)
-  role_id   Int @default(0)
+  role_id   Int @default(1)
   enrolled_courses enrolled_courses[]
   completed_lessons completed_lessons[]
   completed_quizzes completed_quizzes[]

@@ -118,19 +118,19 @@ async function addCourse () {
     data: [{
       level_id: 1,
       type_id: 1,
-      picture: 'https://ibb.co/V9jCqG6',
+      picture: 'https://i.ibb.co/qjygr86/algebraplaceholder.png',
       estimated_time: 10
     },
     {
       level_id: 2,
       type_id: 1,
-      picture: 'https://ibb.co/V9jCqG6',
+      picture: 'https://i.ibb.co/qjygr86/algebraplaceholder.png',
       estimated_time: 24
     },
     {
       level_id: 1,
       type_id: 2,
-      picture: 'https://ibb.co/V9jCqG6',
+      picture: 'https://i.ibb.co/qjygr86/algebraplaceholder.png',
       estimated_time: 20
     }]
   })

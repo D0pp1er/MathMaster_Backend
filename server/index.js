@@ -1,31 +1,13 @@
-// require("dotenv").config({ path: __dirname + "/.env" });
-// const express = require('express');
-
-// const app = express();
-
-// const PORT = process.env.PORT || 9000;
-
-// //Here you can add your routes
-// //Here's an example
-// app.get("/", (req, res) => {
-//     res.send("Hello World!");
-//   });
-
-// app.listen(PORT, () => {
-//     console.log(`Server listening on the port  ${PORT}`);
-// })
-
-// require('dotenv').config({ path: path.join(__dirname, '/.env') })
-// const express = require('express')
-// const pool = require(__dirname + '/config/db.config.js')
-
 // dependencies
 const path = require('path')
 const dotenv = require('dotenv')
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken')
 
+require('dotenv').config()
 // routes
 const courseRoutes = require('./routes/courseRoutes')
 const lessonRoutes = require('./routes/lessonRoutes')
@@ -45,7 +27,22 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-
+app.use(cookieParser())
+app.use((req, res, next) => {
+  if (req.url.startsWith('/api/auth/')) {
+    next()
+  } else {
+    const token = req.cookies.token
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+      if (err) {
+        res.status(500).send('not authenticated')
+      } else {
+        req.user = user
+        next()
+      }
+    })
+  }
+})
 app.use(cors())
 
 const PORT = process.env.PORT || 9000

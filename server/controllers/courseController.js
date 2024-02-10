@@ -5,6 +5,7 @@ const courserepository = require('../database/courserepository')
 const getAllCourses = async (req, res) => {
   try {
     const courses = await courserepository.getAllCourses(2)
+    // console.log(req.user)
     // console.log(courseNames)
     res.send(courses)
   } catch (error) {

@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const authcontroller = require('../controllers/authController')
 /**
  * @swagger
  * tags:
@@ -125,13 +126,9 @@ const router = express.Router()
  */
 
 // need to add controllers
-router.post('/signup', (req, res) => {
-  res.send('signup')
-})
+router.post('/signup', authcontroller.registerUser)
 
-router.post('/login', (req, res) => {
-  res.send('logging in')
-})
+router.post('/login', authcontroller.loginUser)
 
 router.get('/uniqueUserName', (req, res) => {
   res.send('Checking for unique username')
