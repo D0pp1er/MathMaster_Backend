@@ -3,29 +3,41 @@ const courserepository = require('../database/courserepository')
 
 // Function to get all courses
 const getAllCourses = async (req, res) => {
-  const courses = await courserepository.getAllCourses(2, 'English')
-  // console.log(courseNames)
-  res.send(courses)
+  try {
+    const courses = await courserepository.getAllCourses(2, 'English')
+    // console.log(courseNames)
+    res.send(courses)
+  } catch (error) {
+    res.status(500).send('Error getting all courses: ' + error.message)
+  }
 }
 
 // Function to get a specific course by ID
 const getCourseById = async (req, res) => {
   // console.log('\ncourse id is', req.params.courseId)
 
-  const courseId = parseInt(req.params.courseId, 10) // Typecast to integer
-  // getcoursebyid takes input of userId, courseId, and language
-  const course = await courserepository.getCourseById(2, courseId, 'English')
+  try {
+    const courseId = parseInt(req.params.courseId, 10) // Typecast to integer
+    // getcoursebyid takes input of userId, courseId, and language
+    const course = await courserepository.getCourseById(2, courseId, 'English')
 
-  res.send(course)
+    res.send(course)
+  } catch (error) {
+    res.status(500).send('Error getting the course: ' + error.message)
+  }
 }
 
 // Function to get the course outline
 const getCourseOutline = async (req, res) => {
-  const courseId = parseInt(req.params.courseId, 10) // Typecast to integer
-  // getcoursebyid takes input of userId, courseId, and language
-  const course = await courserepository.getCourseOverallOutlinebyID(2, courseId, 'English')
+  try {
+    const courseId = parseInt(req.params.courseId, 10) // Typecast to integer
+    // getcoursebyid takes input of userId, courseId, and language
+    const course = await courserepository.getCourseOverallOutlinebyID(2, courseId, 'English')
 
-  res.send(course)
+    res.send(course)
+  } catch (error) {
+    res.status(500).send('Error getting the course overall outline: ' + error.message)
+  }
 }
 
 // Function to create a new course
@@ -45,7 +57,7 @@ const enrollCourse = async (req, res) => {
 
     res.send('Enrollment successful')
   } catch (error) {
-    res.status(500).send('Error enrolling in the course')
+    res.status(500).send('Error enrolling in the course' + error.message)
   }
 }
 

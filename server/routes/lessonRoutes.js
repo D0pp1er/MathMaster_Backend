@@ -342,13 +342,9 @@ router.post('/create', (req, res) => {
   res.send('Create a new lesson')
 })
 
-router.post('/:lessonId/rate', (req, res) => {
-  res.send('rate a lesson')
-})
+router.post('/:lessonId/rate', lessonController.rateLesson)
 
-router.post('/:lessonId/complete', (req, res) => {
-  res.send('complete a lesson')
-})
+router.post('/:lessonId/complete', lessonController.completeLesson)
 
 router.post('/:lessonId/publish', (req, res) => {
   res.send('publish a lesson')

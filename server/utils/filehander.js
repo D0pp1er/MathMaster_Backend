@@ -40,9 +40,11 @@ function writeFile (relativePath, content) {
 }
 
 // Example usage:
-const relativePathToFile = '../contents/published/language_1/course_1/topic_1/abstraction_2/lesson_1.txt'
-const fileContent = '// Your JavaScript code here\nconsole.log("Hello, world!");'
-writeFile(relativePathToFile, fileContent)
+// const relativePathToFile = '../contents/published/language_1/course_1/topic_1/abstraction_2/lesson_1.txt'
+// const relativePathToFile = '../contents/published/lessons/language_English/abstraction_Novice/lesson_1.txt'
+// const fileContent = '// Your JavaScript code here\nconsole.log("Hello, world!");'
+// writeFile(relativePathToFile, fileContent)
+// console.log(readFileData(relativePathToFile)) // Should return the content of the file 'lesson_1.txt'
 
 module.exports = {
   readFileData,
