@@ -33,7 +33,8 @@ function writeFile (relativePath, content) {
     const absFilePath = convertToAbsolutePath(relativePath)
 
     fs.writeFileSync(absFilePath, content)
-    console.log(`File '${relativePath}' created successfully.`)
+    // console.log(`File '${relativePath}' created successfully.`)
+    return content
   } catch (error) {
     console.error(`Error creating/writing file: ${error.message}`)
   }

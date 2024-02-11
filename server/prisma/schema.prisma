@@ -48,6 +48,8 @@ model user {
   completed_lessons completed_lessons[]
   completed_quizzes completed_quizzes[]
   course_rating course_rating[]
+  course_moderator course_moderator[]
+  authorized_course_authors authorized_course_authors[]
 }
 
 model course_type {
@@ -76,6 +78,8 @@ model course {
   topic           topic[]
   enrolled_courses enrolled_courses[]
   course_rating   course_rating[]
+  course_moderator course_moderator[]
+  authorized_course_authors authorized_course_authors[]
 
 }
 
@@ -254,4 +258,18 @@ model definition {
 
   }
 
-  
+  model course_moderator {
+    user_id               Int
+    user                  user    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+    course_id             Int
+    course                course  @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
+    @@id([user_id, course_id])
+  }
+
+  model authorized_course_authors {
+    user_id               Int
+    user                  user    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+    course_id             Int
+    course                course  @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
+    @@id([user_id, course_id])
+  }

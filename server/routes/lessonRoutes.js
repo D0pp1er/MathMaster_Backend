@@ -350,9 +350,7 @@ router.post('/:lessonId/publish', (req, res) => {
   res.send('publish a lesson')
 })
 
-router.patch('/:lessonId/update', (req, res) => {
-  res.send('Update an existing lesson')
-})
+router.patch('/:lessonId/update', lessonController.editlesson)
 
 router.delete('/:lessonId/delete', (req, res) => {
   res.send('Delete an existing lesson')

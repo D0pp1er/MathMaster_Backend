@@ -46,9 +46,26 @@ const completeLesson = async (req, res) => {
     res.status(500).send('Error completing the lesson' + error.message)
   }
 }
+const editlesson = async (req, res) => {
+  try {
+    // const lessonId = parseInt(req.params.lessonId, 10) // Typecast to integer
+    // const lesson = await lessonrepository.editLesson(lessonId)
+    // res.send({ lesson, message: 'Lesson edited successfully' })
+    if (req.user.role !== 'author') {
+      throw new Error('You are not authorized to perform this action')
+    }
+    const lessonId = parseInt(req.params.lessonId, 10) // Typecast to integer
+    const author = await lessonrepository.isAuthor(req.user.userId, lessonId, req.body.abstraction_level, req.body.language)
+    const lesson = await lessonrepository.editlesson(lessonId, author.language_id, author.abstraction_level_id, req.body.lessonContent, req.body.lessonName)
+    res.send({ message: 'Lesson edited successfully', status: 'success', lesson })
+  } catch (error) {
+    res.status(500).send({ message: 'Error editing the lesson ' + error.message, status: 'failure' })
+  }
+}
 
 module.exports = {
   getLessonById,
   rateLesson,
-  completeLesson
+  completeLesson,
+  editlesson
 }

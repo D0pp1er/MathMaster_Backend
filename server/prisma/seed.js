@@ -26,7 +26,7 @@ async function addUser () {
       password: '123456',
       name: 'Shariful Islam',
       DOB: new Date('1998-12-12').toISOString(),
-      picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg',
+      picture: 'https://i.ibb.co/0jkPLQZ/avatar.png',
       preferred_language_id: 1,
       role_id: 2
     },
@@ -35,7 +35,7 @@ async function addUser () {
       password: '123456',
       name: 'Asib Rahman',
       DOB: new Date('1998-12-12').toISOString(),
-      picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg',
+      picture: 'https://i.ibb.co/0jkPLQZ/avatar.png',
       preferred_language_id: 1,
       role_id: 2
 
@@ -45,11 +45,29 @@ async function addUser () {
       password: '123456',
       name: 'John Doe',
       DOB: new Date('1998-12-12').toISOString(),
-      picture: 'https://i.ibb.co/0jZQY7F/IMG-20201212-123456.jpg',
+      picture: 'https://i.ibb.co/0jkPLQZ/avatar.png',
       preferred_language_id: 1,
       role_id: 1
 
-    }]
+    },
+    {
+      email: 'admin@gmail.com',
+      password: 'admin',
+      name: 'Admin',
+      DOB: new Date('1998-12-12').toISOString(),
+      preferred_language_id: 1,
+      role_id: 4
+    },
+    {
+      email: 'moderator@gmail.com',
+      password: 'moderator',
+      name: 'Moderator',
+      DOB: new Date('1998-12-12').toISOString(),
+      preferred_language_id: 1,
+      role_id: 3
+    }
+
+    ]
   })
 }
 
@@ -537,6 +555,44 @@ async function addCompletedQuiz () {
     ]
   })
 }
+
+async function addCourseModerator () {
+  await prisma.course_moderator.createMany({
+    data: [
+      {
+        user_id: 5,
+        course_id: 1
+      },
+      {
+        user_id: 5,
+        course_id: 2
+      },
+      {
+        user_id: 5,
+        course_id: 3
+      }
+    ]
+  })
+}
+
+async function addAuthorizedCourseAuthor () {
+  await prisma.authorized_course_author.createMany({
+    data: [
+      {
+        user_id: 2,
+        course_id: 1
+      },
+      {
+        user_id: 1,
+        course_id: 1
+      },
+      {
+        user_id: 2,
+        course_id: 2
+      }
+    ]
+  })
+}
 async function seedData () {
   try {
     await addRoles()
@@ -562,6 +618,8 @@ async function seedData () {
     await addCompletedLesson()
     await addCompletedQuiz()
     await addCourseRating()
+    await addCourseModerator()
+    await addAuthorizedCourseAuthor()
   } catch (error) {
     console.error(error)
   }

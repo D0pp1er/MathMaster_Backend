@@ -195,8 +195,70 @@ async function completeLesson (userId, lessonId) {
   })
   return completedLesson
 }
+
+async function isAuthor (userId, lessonId, abstractionLevel, language) {
+  const languageId = await prisma.language.findUnique({
+    where: {
+      name: language
+    }
+  })
+  const abstractionLevelId = await prisma.abstraction_level.findUnique({
+    where: {
+      name: abstractionLevel
+    }
+  })
+  const author = await prisma.lesson_author.findUnique({
+    where: {
+      author_id_lesson_id_language_id_abstraction_level_id: {
+        author_id: userId,
+        lesson_id: lessonId,
+        language_id: languageId.language_id,
+        abstraction_level_id: abstractionLevelId.abstraction_level_id
+      }
+    }
+  })
+  // console.log(author)
+  if (author === null) {
+    throw new Error('You are not the author of this lesson')
+  }
+  return author
+}
+
+async function editlesson (lessonId, languageId, abstractionLevelId, lessonContent, lessonName) {
+  const editedLesson = await prisma.lesson_content.update({
+    where: {
+      lesson_id_language_id_abstraction_level_id: {
+        lesson_id: lessonId,
+        language_id: languageId,
+        abstraction_level_id: abstractionLevelId
+      }
+    },
+    data: {
+      name: lessonName
+    },
+    select: {
+      name: true,
+      content: true,
+      lesson_id: true,
+      language_id: true,
+      abstraction_level_id: true
+    }
+  })
+  // console.log(editedLesson)
+  if (editedLesson.content == null) {
+    throw new Error('No content provided for the lesson')
+  }
+  const filePath = editedLesson.content
+  const fileContent = filehander.writeFile(filePath, lessonContent)
+  if (fileContent === null) {
+    throw new Error('Error writing lesson content')
+  }
+  return { editedLesson, fileContent }
+}
 module.exports = {
   getLessonById,
   rateLesson,
-  completeLesson
+  completeLesson,
+  isAuthor,
+  editlesson
 }
