@@ -184,7 +184,20 @@ async function rateLesson (userId, lessonId, rating, feedback) {
 async function completeLesson (userId, lessonId) {
   const completionStatus = await getCompletionStatus(userId, lessonId)
   if (completionStatus.completed === true) {
-    throw new Error('Lesson already completed')
+    // throw new Error('Lesson already completed')
+    async function deleteCompletedLesson (userId, lessonId) {
+      const deletedLesson = await prisma.completed_lessons.delete({
+        where: {
+          user_id_lesson_id: {
+            user_id: userId,
+            lesson_id: lessonId
+          }
+        }
+      })
+      return deletedLesson
+    }
+    const deletedLesson = await deleteCompletedLesson(userId, lessonId)
+    return deletedLesson
   }
   const completedLesson = await prisma.completed_lessons.create({
     data: {
