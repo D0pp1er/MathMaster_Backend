@@ -25,8 +25,11 @@ const rateLesson = async (req, res) => {
   try {
     const lessonId = parseInt(req.params.lessonId, 10) // Typecast to integer
     const userId = req.user.userId
-    const rating = req.body.rating // Assuming rating is provided in the request body
-    const feedback = req.body.feedback // Assuming feedback is provided in the request body
+    const rating = parseInt(req.body.rating, 10)// Assuming rating is provided in the request body
+    let feedback = req.body.feedback // Assuming feedback is provided in the request body
+    if (feedback === undefined) {
+      feedback = ''
+    }
     const lesson = await lessonrepository.rateLesson(userId, lessonId, rating, feedback)
     // const lesson = await lessonrepository.rateLesson(3, lessonId, 3, '')
     res.send({ lesson, message: 'Lesson rated successfully', status: 'success' })
@@ -46,7 +49,7 @@ const completeLesson = async (req, res) => {
     const userId = req.user.userId
     const lesson = await lessonrepository.completeLesson(userId, lessonId)
     // const lesson = await lessonrepository.completeLesson(2, lessonId)
-    res.send({ lesson, message: 'Lesson completed successfully',status: 'success' })
+    res.send({ lesson, message: 'Lesson completed successfully', status: 'success' })
   } catch (error) {
     res.status(500).send('Error completing the lesson' + error.message)
   }
