@@ -1,5 +1,5 @@
 const prisma = require('./prismaclient')
-const filehander = require('../utils/filehander')
+// const filehander = require('../utils/filehander')
 
 async function CheckCourseAccess (authorId, courseId) {
   const access = await prisma.authorized_course_authors.findUnique({

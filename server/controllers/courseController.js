@@ -1,10 +1,12 @@
 // Import from database
 const courserepository = require('../database/courserepository')
+// const { user } = require('../database/prismaclient')
 
 // Function to get all courses
 const getAllCourses = async (req, res) => {
   try {
-    const courses = await courserepository.getAllCourses(2)
+    const userId = req.user.userId
+    const courses = await courserepository.getAllCourses(userId)
     // console.log(req.user)
     // console.log(courseNames)
     res.send(courses)
@@ -20,7 +22,8 @@ const getCourseById = async (req, res) => {
   try {
     const courseId = parseInt(req.params.courseId, 10) // Typecast to integer
     // getcoursebyid takes input of userId, courseId
-    const course = await courserepository.getCourseById(2, courseId)
+    const userId = req.user.userId
+    const course = await courserepository.getCourseById(userId, courseId)
 
     res.send(course)
   } catch (error) {
@@ -54,7 +57,8 @@ const enrollCourse = async (req, res) => {
   try {
     // Call the enrollCourse function from the courserepository
     // await courserepository.enrollCourse(userId, courseId)
-    await courserepository.enrollCourse(2, courseId)
+    const userId = req.user.userId
+    await courserepository.enrollCourse(userId, courseId)
 
     res.send('Enrollment successful')
   } catch (error) {
@@ -73,8 +77,9 @@ const rateCourse = async (req, res) => {
     // await courserepository.rateCourse(userId, courseId, rating)
     // console.log(req.body)
     const userRating = req.body.rating
+    const userId = req.user.userId
     // console.log('Rating is', userRating)
-    await courserepository.rateCourse(2, courseId, userRating)
+    await courserepository.rateCourse(userId, courseId, userRating)
 
     res.send('Course rated successfully')
   } catch (error) {
