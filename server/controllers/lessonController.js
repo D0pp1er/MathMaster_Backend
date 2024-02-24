@@ -29,7 +29,7 @@ const rateLesson = async (req, res) => {
     const feedback = req.body.feedback // Assuming feedback is provided in the request body
     const lesson = await lessonrepository.rateLesson(userId, lessonId, rating, feedback)
     // const lesson = await lessonrepository.rateLesson(3, lessonId, 3, '')
-    res.send({ lesson, message: 'Lesson rated successfully' })
+    res.send({ lesson, message: 'Lesson rated successfully', status: 'success' })
   } catch (error) {
     res.status(500).send({ message: 'An error occurred while rating the lesson', error: error.message })
   }
@@ -46,7 +46,7 @@ const completeLesson = async (req, res) => {
     const userId = req.user.userId
     const lesson = await lessonrepository.completeLesson(userId, lessonId)
     // const lesson = await lessonrepository.completeLesson(2, lessonId)
-    res.send({ lesson, message: 'Lesson completed successfully' })
+    res.send({ lesson, message: 'Lesson completed successfully',status: 'success' })
   } catch (error) {
     res.status(500).send('Error completing the lesson' + error.message)
   }
