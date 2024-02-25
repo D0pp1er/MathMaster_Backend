@@ -36,7 +36,8 @@ const getCourseOutline = async (req, res) => {
   try {
     const courseId = parseInt(req.params.courseId, 10) // Typecast to integer
     // getcoursebyid takes input of userId, courseId, and language
-    const course = await courserepository.getCourseOverallOutlinebyID(2, courseId)
+    const userId = req.user.userId
+    const course = await courserepository.getCourseOverallOutlinebyID(userId, courseId)
 
     res.send(course)
   } catch (error) {

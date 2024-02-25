@@ -7,7 +7,7 @@ const registerUser = async (req, res) => {
     const username = req.body.username
     // const userDOB = req.body.DOB
     const user = await userrepository.registerUser(useremail, userpassword, username)
-    res.status(200).json({ user, message: 'User registered successfully' })
+    res.status(200).json({ user, message: 'User registered successfully', status: 'success' })
   } catch (error) {
     res.status(500).send('Error registering user\t' + error.message)
   }
