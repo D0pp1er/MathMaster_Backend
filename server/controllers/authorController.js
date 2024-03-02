@@ -28,6 +28,27 @@ const getLessonById = async (req, res) => {
     res.status(500).send('Error retrieving the lesson' + error.message)
   }
 }
+
+const editCourse = async (req, res) => {
+  try {
+    if (req.user.role !== 'author') {
+      throw new Error('\tYou are not authorized to perform this action')
+    }
+    const courseId = parseInt(req.params.courseId, 10) // Typecast to integer
+    const courseName = req.body.name
+    const courseDescription = req.body.description
+    const courseLanguage = req.body.language
+    const coursetype = req.body.type
+    const estimatedTime = parseInt(req.body.estimatedTime, 10)
+    const authorId = req.user.userId
+    const updatedCourseContent = await authorrepository.editCourse(authorId, courseId, courseName, courseDescription, courseLanguage, coursetype, estimatedTime)
+    res.send({ updatedCourse: updatedCourseContent, status: 'success', message: 'Course updated successfully' })
+  } catch (error) {
+    res.status(500).send({ message: 'Error updating the course\t' + error.message, status: 'failed' })
+  }
+}
+
 module.exports = {
-  getLessonById
+  getLessonById,
+  editCourse
 }

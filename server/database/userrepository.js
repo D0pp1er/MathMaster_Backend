@@ -122,7 +122,18 @@ async function getUserXPInLast7Days (userId) {
       return acc
     }, {})
 
-    return xpByDate
+    const last7Dates = Array.from({ length: 7 }, (_, i) => {
+      const d = new Date()
+      d.setDate(d.getDate() - i)
+      return d.toISOString().split('T')[0]
+    })
+
+    const xpLast7Days = last7Dates.reduce((acc, curr) => {
+      acc[curr] = xpByDate[curr] || 0
+      return acc
+    }, {})
+
+    return xpLast7Days
   } catch (error) {
     console.error(error)
     throw error
