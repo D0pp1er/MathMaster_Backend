@@ -304,7 +304,7 @@ async function addLesson (topicId, lessonXP, lessonName, lessonContent, language
     }
   })
   // ../contents/published/language_English/lessons/lesson_1.txt
-  const lessonFilePath = '../contents/unpublished/language_' + language + '/lessons/lesson_' + lesson.lesson_id + '.txt'
+  const lessonFilePath = '../contents/unpublished/language_' + language + '/lessons/abstraction_' + abstractionLevel + '/lesson_' + lesson.lesson_id + '.txt'
   const fileContent = filehander.writeFile(lessonFilePath, lessonContent)
   const lessonAuthor = await prisma.lesson_author.create({
     data: {
@@ -315,7 +315,21 @@ async function addLesson (topicId, lessonXP, lessonName, lessonContent, language
     }
   })
   newlessonContent.content = fileContent
-  return { lesson, newlessonContent, lessonAuthor }
+  const updatedLessonContent = await prisma.lesson_content.update({
+    where: {
+      lesson_id_language_id_abstraction_level_id: {
+        lesson_id: lesson.lesson_id,
+        language_id: languageId.language_id,
+        abstraction_level_id: abstractionLevelId.abstraction_level_id
+      }
+    },
+    data: {
+      content: lessonFilePath
+    }
+  })
+  updatedLessonContent.content = fileContent
+
+  return { lesson, updatedLessonContent, lessonAuthor }
 }
 
 module.exports = {
