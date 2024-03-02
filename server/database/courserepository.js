@@ -711,10 +711,83 @@ async function rateCourse (userId, courseId, rating) {
   }
 }
 
+async function addCourse (courseName, courseDescription, courseLanguage, coursetype, estimatedTime, courselevel) {
+  try {
+    const languageID = await prisma.language.findUnique({
+      where: {
+        name: courseLanguage
+      },
+      select: {
+        language_id: true
+      }
+    })
+    if (languageID === null) {
+      throw new Error('Language not found')
+    }
+    const typeId = await prisma.course_type.findUnique({
+      where: {
+        name: coursetype
+      },
+      select: {
+        course_type_id: true
+      }
+    })
+    if (typeId === null) {
+      throw new Error('Course type not found')
+    }
+    const levelId = await prisma.course_level.findUnique({
+      where: {
+        name: courselevel
+      },
+      select: {
+        course_level_id: true
+      }
+    })
+    if (levelId === null) {
+      throw new Error('Course level not found')
+    }
+    const newCourse = await prisma.course.create({
+      data: {
+        course_content: {
+          create: {
+            name: courseName,
+            description: courseDescription,
+            language_id: languageID.language_id
+          }
+        },
+        type_id: typeId.course_type_id,
+        level_id: levelId.course_level_id,
+        estimated_time: estimatedTime
+      }
+    })
+    return newCourse
+  } catch (error) {
+    console.error('Error adding course:', error)
+    throw error
+  }
+}
+
+async function addAuthorizedCourseAuthor (authorId, courseId) {
+  try {
+    const newAuthorizedCourseAuthor = await prisma.authorized_course_authors.create({
+      data: {
+        user_id: authorId,
+        course_id: courseId
+      }
+    })
+    return newAuthorizedCourseAuthor
+  } catch (error) {
+    console.error('Error adding authorized course author:', error)
+    throw error
+  }
+}
+
 module.exports = {
   getAllCourses,
   getCourseById,
   getCourseOverallOutlinebyID,
   enrollCourse,
-  rateCourse
+  rateCourse,
+  addCourse,
+  addAuthorizedCourseAuthor
 }

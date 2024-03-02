@@ -67,7 +67,7 @@ model course_level {
 
 model course {
   course_id       Int     @id @default(autoincrement())
-  picture         String?
+  picture         String? @default("https://i.ibb.co/qjygr86/algebraplaceholder.png")
   course_level    course_level @relation(fields: [level_id], references: [course_level_id], onDelete: NoAction, onUpdate: NoAction)
   level_id        Int       
   type            course_type @relation(fields: [type_id], references: [course_type_id], onDelete: NoAction, onUpdate: NoAction)

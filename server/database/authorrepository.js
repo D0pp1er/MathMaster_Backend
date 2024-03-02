@@ -86,7 +86,21 @@ async function editCourse (authorId, courseId, courseName, courseDescription, co
   return { course, updatedOutline }
 }
 
+async function searchAuthorByName (authorName) {
+  // console.log('authorName in db\t', authorName)
+  const authors = await prisma.user.findMany({
+    where: {
+      name: {
+        contains: authorName,
+        mode: 'insensitive'
+      }
+    }
+  })
+  return authors
+}
+
 module.exports = {
   CheckCourseAccess,
-  editCourse
+  editCourse,
+  searchAuthorByName
 }
