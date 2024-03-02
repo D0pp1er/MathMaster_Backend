@@ -262,16 +262,67 @@ async function editlesson (lessonId, languageId, abstractionLevelId, lessonConte
     throw new Error('No content provided for the lesson')
   }
   const filePath = editedLesson.content
+  // console.log(filePath)
+  // console.log(lessonContent)
   const fileContent = filehander.writeFile(filePath, lessonContent)
   if (fileContent === null) {
     throw new Error('Error writing lesson content')
   }
   return { editedLesson, fileContent }
 }
+
+async function addLesson (topicId, lessonXP, lessonName, lessonContent, language, abstractionLevel, authorId) {
+  const languageId = await prisma.language.findUnique({
+    where: {
+      name: language
+    }
+  })
+  if (languageId === null) {
+    throw new Error('Language not found')
+  }
+  const abstractionLevelId = await prisma.abstraction_level.findUnique({
+    where: {
+      name: abstractionLevel
+    }
+  })
+  if (abstractionLevelId === null) {
+    throw new Error('Abstraction Level not found')
+  }
+  const lesson = await prisma.lesson.create({
+    data: {
+      topic_id: topicId,
+      XP: lessonXP
+    }
+  })
+  const newlessonContent = await prisma.lesson_content.create({
+    data: {
+      lesson_id: lesson.lesson_id,
+      language_id: languageId.language_id,
+      abstraction_level_id: abstractionLevelId.abstraction_level_id,
+      name: lessonName,
+      content: 'mock content'
+    }
+  })
+  // ../contents/published/language_English/lessons/lesson_1.txt
+  const lessonFilePath = '../contents/unpublished/language_' + language + '/lessons/lesson_' + lesson.lesson_id + '.txt'
+  const fileContent = filehander.writeFile(lessonFilePath, lessonContent)
+  const lessonAuthor = await prisma.lesson_author.create({
+    data: {
+      author_id: authorId,
+      lesson_id: lesson.lesson_id,
+      language_id: languageId.language_id,
+      abstraction_level_id: abstractionLevelId.abstraction_level_id
+    }
+  })
+  newlessonContent.content = fileContent
+  return { lesson, newlessonContent, lessonAuthor }
+}
+
 module.exports = {
   getLessonById,
   rateLesson,
   completeLesson,
   isAuthor,
-  editlesson
+  editlesson,
+  addLesson
 }

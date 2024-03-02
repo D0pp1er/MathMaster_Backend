@@ -1,6 +1,7 @@
 const authorrepository = require('../database/authorrepository')
 const definitionrepository = require('../database/definitionrepository')
 const courseRepository = require('../database/courserepository')
+const lessonrepository = require('../database/lessonrepository')
 
 const getLessonById = async (req, res) => {
   try {
@@ -82,9 +83,30 @@ const addTopicOfCourse = async (req, res) => {
   }
 }
 
+const addLessonToTopic = async (req, res) => {
+  try {
+    if (req.user.role !== 'author') {
+      throw new Error('You are not authorized to perform this action')
+    }
+    const topicId = parseInt(req.params.topicId, 10) // Typecast to integer
+    const authorId = req.user.userId
+    const lessonXp = parseInt(req.body.xp, 10)
+    const lessonName = req.body.name
+    const lessonContent = req.body.content
+    const language = req.body.language
+    const abstractionLevel = req.body.abstraction_level
+
+    const newLesson = await lessonrepository.addLesson(topicId, lessonXp, lessonName, lessonContent, language, abstractionLevel, authorId)
+    res.send({ newLesson, status: 'success', message: 'Lesson added to topic successfully' })
+  } catch (error) {
+    res.status(500).send({ message: 'Error adding the lesson to topic\t' + error.message, status: 'failed' })
+  }
+}
+
 module.exports = {
   getLessonById,
   editCourse,
   addDefinition,
-  addTopicOfCourse
+  addTopicOfCourse,
+  addLessonToTopic
 }

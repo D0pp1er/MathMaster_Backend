@@ -288,6 +288,8 @@ router.get('/', (req, res) => {
 // GET a particular definition by id
 router.get('/:quizId', quizController.getQuizById)
 
+router.patch('/:quizId/update', quizController.editQuiz)
+
 // UPDATE a definition by id
 router.put('/:quizId/update', (req, res) => {
   const quizId = req.params.quizId

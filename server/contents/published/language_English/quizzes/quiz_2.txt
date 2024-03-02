@@ -1,6 +1,1 @@
-type : mcq
-question : For what value of parameter $m$ does the line intersect the point?
-options : -1, -2, -3, -4
-correct : -1
-explanation : demo $x$
-hint: a simple hint
+type : mcq question : For what value of parameter $m$ does the line intersect the point? options : -1, -2, -3, -4 correct : -1 explanation : the point satisfies the line where both intersect hint: sorry! no hint available

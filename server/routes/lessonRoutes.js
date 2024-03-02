@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const lessonController = require('../controllers/lessonController')
-
+const authorController = require('../controllers/authorController')
 /**
  * @swagger
  * tags:
@@ -341,6 +341,8 @@ router.get('/:lessonId', lessonController.getLessonById)
 router.post('/:lessonId/rate', lessonController.rateLesson)
 // done
 router.post('/:lessonId/complete', lessonController.completeLesson)
+// done
+router.post('/:topicId/addLesson', authorController.addLessonToTopic)
 // done
 router.post('/create', (req, res) => {
   res.send('Create a new lesson')

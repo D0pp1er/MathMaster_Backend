@@ -12,6 +12,23 @@ const getQuizById = async (req, res) => {
     res.status(500).send('Error retrieving the quiz\t' + error.message)
   }
 }
+
+const editQuiz = async (req, res) => {
+  try {
+    const quizId = parseInt(req.params.quizId, 10) // Typecast to integer
+    const xp = parseInt(req.body.xp, 10)
+    const totalScore = parseInt(req.body.totalScore, 10)
+    const quizname = req.body.name
+    const quizcontent = req.body.content
+    const language = req.body.language
+    const updatedQuiz = await quizrepository.editQuiz(quizId, xp, totalScore, quizname, quizcontent, language)
+    res.send({ updatedQuiz, status: 'success', message: 'Quiz updated successfully' })
+  } catch (error) {
+    // console.log('Error updating the quiz\t' + error.message)
+    res.status(500).send({ message: 'Error updating the quiz\t' + error.message, status: 'failed' })
+  }
+}
 module.exports = {
-  getQuizById
+  getQuizById,
+  editQuiz
 }
