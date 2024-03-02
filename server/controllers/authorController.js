@@ -2,6 +2,7 @@ const authorrepository = require('../database/authorrepository')
 const definitionrepository = require('../database/definitionrepository')
 const courseRepository = require('../database/courserepository')
 const lessonrepository = require('../database/lessonrepository')
+const quizrepository = require('../database/quizrepository')
 
 const getLessonById = async (req, res) => {
   try {
@@ -103,10 +104,29 @@ const addLessonToTopic = async (req, res) => {
   }
 }
 
+const addQuizToTopic = async (req, res) => {
+  try {
+    if (req.user.role !== 'author') {
+      throw new Error('You are not authorized to perform this action')
+    }
+    const topicId = parseInt(req.params.topicId, 10) // Typecast to integer
+    const xp = parseInt(req.body.xp, 10)
+    const totalScore = parseInt(req.body.totalScore, 10)
+    const name = req.body.name
+    const content = req.body.content
+    const language = req.body.language
+    const newQuiz = await quizrepository.addQuiz(topicId, xp, totalScore, name, content, language)
+    res.send({ newQuiz, status: 'success', message: 'Quiz added to topic successfully' })
+  } catch (error) {
+    res.status(500).send({ message: 'Error adding the quiz to topic\t' + error.message, status: 'failed' })
+  }
+}
+
 module.exports = {
   getLessonById,
   editCourse,
   addDefinition,
   addTopicOfCourse,
-  addLessonToTopic
+  addLessonToTopic,
+  addQuizToTopic
 }

@@ -17,6 +17,7 @@ const quizRoutes = require('./routes/quizRoutes')
 const statRoutes = require('./routes/statRoutes')
 const authorRoutes = require('./routes/authorRoutes')
 const moderatorRoutes = require('./routes/modRoutes')
+const topicRoutes = require('./routes/topicRoutes')
 
 // swagger api documentation
 const swaggerJSDoc = require('swagger-jsdoc')
@@ -83,6 +84,7 @@ app.use('/api/quizzes', quizRoutes)
 app.use('/api/stats', statRoutes)
 app.use('/api/author', authorRoutes)
 app.use('/api/mod', moderatorRoutes)
+app.use('/api/topics', topicRoutes)
 
 // Swagger setup
 const swaggerOptions = {

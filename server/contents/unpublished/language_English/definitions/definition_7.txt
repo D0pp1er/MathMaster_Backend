@@ -1,0 +1,1 @@
+the range of a function refers to the set of all possible output values that the function can produce when its input varies over its domain. In simpler terms, the range represents the set of all values that the function can reach or produce. It is the collection of all images of elements in the domain under the function.

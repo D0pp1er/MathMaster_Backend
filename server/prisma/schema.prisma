@@ -2,274 +2,259 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")
-// }
-// prisma/schema.prisma
-// for neon tech
-// prisma/schema.prisma
 datasource db {
   provider  = "postgresql"
-  url  	    = env("DATABASE_URL")
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
-// for vercel
-// datasource db {
-//   provider = "postgresql"
-//   url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-//   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-// }
-// model products {
-//   product_id  Int    @id @default(autoincrement())
-//   name        String @db.VarChar(50)
-//   price       Float  @db.Real
-//   description String
-// }
+
 model role {
-  role_id   Int     @id @default(autoincrement())
-  name      String  @db.VarChar(50) @unique
-  user      user[]
+  role_id Int    @id @default(autoincrement())
+  name    String @unique @db.VarChar(50)
+  user    user[]
 }
 
 model user {
-  user_id   Int     @id @default(autoincrement())
-  name      String  @db.VarChar(50)
-  password  String
-  email     String  @unique @db.VarChar(255)
-  DOB       DateTime?
-  picture   String @default("https://i.ibb.co/0jkPLQZ/avatar.png")
-  user_preferred_language language @relation(fields: [preferred_language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
-  preferred_language_id Int @default(1)
-  author    author?
-  role      role @relation(fields: [role_id], references: [role_id], onDelete: NoAction, onUpdate: NoAction)
-  role_id   Int @default(1)
-  enrolled_courses enrolled_courses[]
-  completed_lessons completed_lessons[]
-  completed_quizzes completed_quizzes[]
-  course_rating course_rating[]
-  course_moderator course_moderator[]
+  user_id                   Int                         @id @default(autoincrement())
+  name                      String                      @db.VarChar(50)
+  password                  String
+  email                     String                      @unique @db.VarChar(255)
+  DOB                       DateTime?
+  picture                   String                      @default("https://i.ibb.co/0jkPLQZ/avatar.png")
+  preferred_language_id     Int                         @default(1)
+  role_id                   Int                         @default(1)
+  author                    author?
   authorized_course_authors authorized_course_authors[]
+  completed_lessons         completed_lessons[]
+  completed_quizzes         completed_quizzes[]
+  course_moderator          course_moderator[]
+  course_rating             course_rating[]
+  enrolled_courses          enrolled_courses[]
+  user_preferred_language   language                    @relation(fields: [preferred_language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
+  role                      role                        @relation(fields: [role_id], references: [role_id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model course_type {
-  course_type_id  Int     @id @default(autoincrement())
-  name            String  @db.VarChar(255) @unique
-  picture         String?
-  course          course[]
+  course_type_id Int      @id @default(autoincrement())
+  name           String   @unique @db.VarChar(255)
+  picture        String?
+  course         course[]
 }
 
 model course_level {
-  course_level_id Int     @id @default(autoincrement())
-  name            String  @db.VarChar(255) @unique
+  course_level_id Int      @id @default(autoincrement())
+  name            String   @unique @db.VarChar(255)
   course          course[]
 }
 
 model course {
-  course_id       Int     @id @default(autoincrement())
-  picture         String? @default("https://i.ibb.co/qjygr86/algebraplaceholder.png")
-  course_level    course_level @relation(fields: [level_id], references: [course_level_id], onDelete: NoAction, onUpdate: NoAction)
-  level_id        Int       
-  type            course_type @relation(fields: [type_id], references: [course_type_id], onDelete: NoAction, onUpdate: NoAction)
-  type_id         Int
-  estimated_time  Int
-  course_content  course_content[]
-  prerequisite_course prerequisite_course[]
-  topic           topic[]
-  enrolled_courses enrolled_courses[]
-  course_rating   course_rating[]
-  course_moderator course_moderator[]
+  course_id                 Int                         @id @default(autoincrement())
+  picture                   String?
+  level_id                  Int
+  type_id                   Int
+  estimated_time            Int
   authorized_course_authors authorized_course_authors[]
-
+  course_level              course_level                @relation(fields: [level_id], references: [course_level_id], onDelete: NoAction, onUpdate: NoAction)
+  type                      course_type                 @relation(fields: [type_id], references: [course_type_id], onDelete: NoAction, onUpdate: NoAction)
+  course_content            course_content[]
+  course_moderator          course_moderator[]
+  course_rating             course_rating[]
+  enrolled_courses          enrolled_courses[]
+  prerequisite_course       prerequisite_course[]
+  topic                     topic[]
 }
 
 model course_rating {
-  course_id       Int
-  course          course  @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
-  user_id         Int
-  user            user    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
-  rating          Int    @default(0)
-  feedback        String?
+  course_id Int
+  user_id   Int
+  rating    Int     @default(0)
+  feedback  String?
+  course    course  @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
+  user      user    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+
   @@id([course_id, user_id])
 }
 
 model language {
-  language_id     Int     @id @default(autoincrement())
-  name            String  @db.VarChar(255) @unique
-  course_content  course_content[]
-  topic_content   topic_content[]
-  lesson_content  lesson_content[]
-  definition      definition[]
-  quiz_content    quiz_content[]
-  lesson_author   lesson_author[]
-  user            user[]
-
+  language_id    Int              @id @default(autoincrement())
+  name           String           @unique @db.VarChar(255)
+  course_content course_content[]
+  definition     definition[]
+  lesson_author  lesson_author[]
+  lesson_content lesson_content[]
+  quiz_content   quiz_content[]
+  topic_content  topic_content[]
+  user           user[]
 }
 
-
 model course_content {
-  name                String  @db.VarChar(255) @unique
-  description         String
-  course              course  @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
+  name        String   @unique @db.VarChar(255)
+  description String
   course_id   Int
-  language            language  @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
-  language_id   Int
+  language_id Int
+  course      course   @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
+  language    language @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
+
   @@id([course_id, language_id])
 }
 
-
 model author {
-  content_author_id   Int     @id @default(autoincrement())
-  user_id             Int     @unique
-  user                user    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
-  lesson_author       lesson_author[]
+  content_author_id Int             @id @default(autoincrement())
+  user_id           Int             @unique
+  user              user            @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+  lesson_author     lesson_author[]
 }
 
 model lesson_author {
-  author_id           Int
-  author              author  @relation(fields: [author_id], references: [content_author_id], onDelete: NoAction, onUpdate: NoAction)
-  lesson_id           Int
-  lesson              lesson  @relation(fields: [lesson_id], references: [lesson_id], onDelete: NoAction, onUpdate: NoAction)
-  language_id         Int
-  language            language  @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
+  author_id            Int
+  lesson_id            Int
+  language_id          Int
   abstraction_level_id Int
-  abstraction_level    abstraction_level  @relation(fields: [abstraction_level_id], references: [abstraction_level_id], onDelete: NoAction, onUpdate: NoAction)
+  abstraction_level    abstraction_level @relation(fields: [abstraction_level_id], references: [abstraction_level_id], onDelete: NoAction, onUpdate: NoAction)
+  author               author            @relation(fields: [author_id], references: [content_author_id], onDelete: NoAction, onUpdate: NoAction)
+  language             language          @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
+  lesson               lesson            @relation(fields: [lesson_id], references: [lesson_id], onDelete: NoAction, onUpdate: NoAction)
+
   @@id([author_id, lesson_id, language_id, abstraction_level_id])
 }
 
 model prerequisite_course {
-  course_id           Int
-  prerequisite_id     Int
-  course              course  @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
+  course_id       Int
+  prerequisite_id Int
+  course          course @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
+
   @@id([course_id, prerequisite_id])
 }
 
-
 model topic {
-  topic_id            Int     @id @default(autoincrement())
-  course_id           Int
-  course              course  @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
-  topic_content       topic_content[]
-  lesson              lesson[]
-  quiz                quiz[]
+  topic_id      Int             @id @default(autoincrement())
+  course_id     Int
+  lesson        lesson[]
+  quiz          quiz[]
+  course        course          @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
+  topic_content topic_content[]
+
   @@unique([course_id, topic_id])
 }
 
 model topic_content {
-  name                String  @db.VarChar(255)
-  description         String?
-  topic_id            Int
-  topic               topic   @relation(fields: [topic_id], references: [topic_id], onDelete: NoAction, onUpdate: NoAction)
-  language            language  @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
-  language_id         Int
+  name        String   @db.VarChar(255)
+  description String?
+  topic_id    Int
+  language_id Int
+  language    language @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
+  topic       topic    @relation(fields: [topic_id], references: [topic_id], onDelete: NoAction, onUpdate: NoAction)
+
   @@id([topic_id, language_id])
 }
 
 model abstraction_level {
-  abstraction_level_id  Int     @id @default(autoincrement())
-  name                  String  @db.VarChar(255) @unique
-  lesson_content        lesson_content[]
-  lesson_author         lesson_author[]
+  abstraction_level_id Int              @id @default(autoincrement())
+  name                 String           @unique @db.VarChar(255)
+  lesson_author        lesson_author[]
+  lesson_content       lesson_content[]
 }
 
 model lesson {
-  lesson_id             Int     @id @default(autoincrement())
-  topic_id              Int
-  topic                 topic   @relation(fields: [topic_id], references: [topic_id], onDelete: NoAction, onUpdate: NoAction)
-  XP                    Int
-  lesson_content        lesson_content[]
-  lesson_author         lesson_author[]
-  completed_lessons     completed_lessons[]
+  lesson_id         Int                 @id @default(autoincrement())
+  topic_id          Int
+  XP                Int
+  completed_lessons completed_lessons[]
+  topic             topic               @relation(fields: [topic_id], references: [topic_id], onDelete: NoAction, onUpdate: NoAction)
+  lesson_author     lesson_author[]
+  lesson_content    lesson_content[]
 }
 
 model lesson_content {
-  lesson_id             Int
-  lesson                lesson  @relation(fields: [lesson_id], references: [lesson_id], onDelete: NoAction, onUpdate: NoAction)
-  name                 String  @db.VarChar(255)
+  lesson_id            Int
+  name                 String            @db.VarChar(255)
   content              String
   language_id          Int
   abstraction_level_id Int
-  language             language  @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
-  abstraction_level    abstraction_level  @relation(fields: [abstraction_level_id], references: [abstraction_level_id], onDelete: NoAction, onUpdate: NoAction)
+  abstraction_level    abstraction_level @relation(fields: [abstraction_level_id], references: [abstraction_level_id], onDelete: NoAction, onUpdate: NoAction)
+  language             language          @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
+  lesson               lesson            @relation(fields: [lesson_id], references: [lesson_id], onDelete: NoAction, onUpdate: NoAction)
+
   @@id([lesson_id, language_id, abstraction_level_id])
 }
 
 model definition {
-  definition_id         Int     @id @default(autoincrement())
-  name                  String  @db.VarChar(255) @unique
-  content               String
-  language_id           Int
-  language              language  @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
-  }
+  definition_id Int      @id @default(autoincrement())
+  name          String   @unique @db.VarChar(255)
+  content       String
+  language_id   Int
+  language      language @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
+}
 
-  model quiz {
-    quiz_id               Int     @id @default(autoincrement())
-    topic_id              Int
-    topic                 topic   @relation(fields: [topic_id], references: [topic_id], onDelete: NoAction, onUpdate: NoAction)
-    XP                    Int
-    Total_score           Int
-    quiz_content          quiz_content[]
-    completed_quizzes     completed_quizzes[]
-  }
+model quiz {
+  quiz_id           Int                 @id @default(autoincrement())
+  topic_id          Int
+  XP                Int
+  Total_score       Int
+  completed_quizzes completed_quizzes[]
+  topic             topic               @relation(fields: [topic_id], references: [topic_id], onDelete: NoAction, onUpdate: NoAction)
+  quiz_content      quiz_content[]
+}
 
-  model quiz_content {
-    quiz_id               Int
-    quiz                  quiz    @relation(fields: [quiz_id], references: [quiz_id], onDelete: NoAction, onUpdate: NoAction)
-    name                  String  @db.VarChar(255)
-    content               String
-    language_id           Int
-    language              language  @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
-    @@id([quiz_id, language_id])
-  }
+model quiz_content {
+  quiz_id     Int
+  name        String   @db.VarChar(255)
+  content     String
+  language_id Int
+  language    language @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
+  quiz        quiz     @relation(fields: [quiz_id], references: [quiz_id], onDelete: NoAction, onUpdate: NoAction)
 
-  //rating system, completion  
+  @@id([quiz_id, language_id])
+}
 
-  model enrolled_courses {
-    user_id               Int
-    user                  user    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
-    course_id             Int
-    course                course  @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
-    timestamp             DateTime
-    @@id([user_id, course_id])
+model enrolled_courses {
+  user_id   Int
+  course_id Int
+  timestamp DateTime
+  course    course   @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
+  user      user     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
 
-  }
+  @@id([user_id, course_id])
+}
 
-  model completed_lessons {
-    user_id               Int
-    user                  user    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
-    lesson_id             Int
-    lesson                lesson  @relation(fields: [lesson_id], references: [lesson_id], onDelete: NoAction, onUpdate: NoAction)
-    timestamp             DateTime
-    @@id([user_id, lesson_id])
-    rating                Int?
-    feedback              String?
+model completed_lessons {
+  user_id   Int
+  lesson_id Int
+  timestamp DateTime
+  rating    Int?
+  feedback  String?
+  lesson    lesson   @relation(fields: [lesson_id], references: [lesson_id], onDelete: NoAction, onUpdate: NoAction)
+  user      user     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
 
-  }
+  @@id([user_id, lesson_id])
+}
 
-  model completed_quizzes {
-    user_id               Int
-    user                  user    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
-    quiz_id               Int
-    quiz                  quiz    @relation(fields: [quiz_id], references: [quiz_id], onDelete: NoAction, onUpdate: NoAction)
-    timestamp             DateTime
-    @@id([user_id, quiz_id])
-    score                 Int
-    XP                    Int
+model completed_quizzes {
+  user_id   Int
+  quiz_id   Int
+  timestamp DateTime
+  score     Int
+  XP        Int
+  quiz      quiz     @relation(fields: [quiz_id], references: [quiz_id], onDelete: NoAction, onUpdate: NoAction)
+  user      user     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
 
-  }
+  @@id([user_id, quiz_id])
+}
 
-  model course_moderator {
-    user_id               Int
-    user                  user    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
-    course_id             Int
-    course                course  @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
-    @@id([user_id, course_id])
-  }
+model course_moderator {
+  user_id   Int
+  course_id Int
+  course    course @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
+  user      user   @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
 
-  model authorized_course_authors {
-    user_id               Int
-    user                  user    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
-    course_id             Int
-    course                course  @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
-    @@id([user_id, course_id])
-  }
+  @@id([user_id, course_id])
+}
+
+model authorized_course_authors {
+  user_id   Int
+  course_id Int
+  course    course @relation(fields: [course_id], references: [course_id], onDelete: NoAction, onUpdate: NoAction)
+  user      user   @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([user_id, course_id])
+}

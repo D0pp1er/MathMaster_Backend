@@ -101,7 +101,48 @@ async function editQuiz (quizId, xp, totalScore, quizname, quizcontent, language
   return updatedQuiz
 }
 
+async function addQuiz (topicId, xp, totalScore, quizName, quizContent, language) {
+  const languageId = await prisma.language.findUnique({
+    where: {
+      name: language
+    }
+  })
+  if (languageId === null) {
+    throw new Error('Language not found')
+  }
+  const quiz = await prisma.quiz.create({
+    data: {
+      topic_id: topicId,
+      XP: xp,
+      Total_score: totalScore,
+      quiz_content: {
+        create: {
+          name: quizName,
+          content: 'mock content',
+          language_id: languageId.language_id
+        }
+      }
+    }
+  })
+  const quizContentPath = '../contents/unpublished/language_' + language + '/quizzes/quiz_' + quiz.quiz_id + '.txt'
+  filehander.writeFile(quizContentPath, quizContent)
+  const updatedContent = await prisma.quiz_content.update({
+    where: {
+      quiz_id_language_id: {
+        quiz_id: quiz.quiz_id,
+        language_id: languageId.language_id
+      }
+    },
+    data: {
+      content: quizContentPath
+    }
+  })
+  updatedContent.content = quizContent
+  return updatedContent
+}
+
 module.exports = {
   getQuizzesById,
-  editQuiz
+  editQuiz,
+  addQuiz
 }

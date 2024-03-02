@@ -85,8 +85,39 @@ async function addDefinition (defname, defcontent, language) {
   return updatecontent
 }
 
+async function editDefinition (definitionId, newName, newContent, language) {
+  const languageId = await prisma.language.findUnique({
+    where: {
+      name: language
+    },
+    select: {
+      language_id: true
+    }
+  })
+  if (languageId === null) {
+    throw new Error('Language not found')
+  }
+  const updatedDefinition = await prisma.definition.update({
+    where: {
+      definition_id: definitionId
+    },
+    data: {
+      name: newName,
+      language_id: languageId.language_id
+    }
+  })
+  const filepath = updatedDefinition.content
+  const fileContent = filehander.writeFile(filepath, newContent)
+  if (fileContent === null) {
+    throw new Error('Error writing definition content')
+  }
+  updatedDefinition.content = fileContent
+  return updatedDefinition
+}
+
 module.exports = {
   getDefinitionById,
   getAllDefinitions,
-  addDefinition
+  addDefinition,
+  editDefinition
 }

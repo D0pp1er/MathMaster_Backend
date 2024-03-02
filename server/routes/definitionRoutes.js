@@ -290,12 +290,7 @@ router.get('/', definitioncontroller.getAllDefinitions)
 router.get('/:definitionId', definitioncontroller.getDefinitionById)
 
 // UPDATE a definition by id
-router.put('/:definitionId/update', (req, res) => {
-  const definitionId = req.params.definitionId
-  // Logic to update a definition by id in the database
-  // ...
-  res.send(`Update definition with id ${definitionId}`)
-})
+router.patch('/:definitionId/update', definitioncontroller.editDefinition)
 // CREATE a new definition
 router.post('/create', authorcontroller.addDefinition)
 // DELETE a definition by id

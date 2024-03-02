@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const quizController = require('../controllers/quizController')
+const authorController = require('../controllers/authorController')
 /**
  * @swagger
  * tags:
@@ -289,6 +290,8 @@ router.get('/', (req, res) => {
 router.get('/:quizId', quizController.getQuizById)
 
 router.patch('/:quizId/update', quizController.editQuiz)
+
+router.post('/:topicId/addQuiz', authorController.addQuizToTopic)
 
 // UPDATE a definition by id
 router.put('/:quizId/update', (req, res) => {
