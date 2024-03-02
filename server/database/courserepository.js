@@ -782,6 +782,50 @@ async function addAuthorizedCourseAuthor (authorId, courseId) {
   }
 }
 
+async function addTopicOfCourse (courseId, topicName, topicDescription, language, authorId) {
+  // try {
+  const languageID = await prisma.language.findUnique({
+    where: {
+      name: language
+    },
+    select: {
+      language_id: true
+    }
+  })
+  if (languageID === null) {
+    throw new Error('Language not found')
+  }
+
+  const access = await prisma.authorized_course_authors.findUnique({
+    where: {
+      user_id_course_id: {
+        user_id: authorId,
+        course_id: courseId
+      }
+    }
+  })
+  if (access === null) {
+    throw new Error('You are not the assigned author for this course')
+  }
+  const newTopic = await prisma.topic.create({
+    data: {
+      topic_content: {
+        create: {
+          name: topicName,
+          description: topicDescription,
+          language_id: languageID.language_id
+        }
+      },
+      course_id: courseId
+    }
+  })
+  return newTopic
+  // } catch (error) {
+  //   console.error('Error adding topic of course:', error)
+  //   throw error
+  // }
+}
+
 module.exports = {
   getAllCourses,
   getCourseById,
@@ -789,5 +833,6 @@ module.exports = {
   enrollCourse,
   rateCourse,
   addCourse,
-  addAuthorizedCourseAuthor
+  addAuthorizedCourseAuthor,
+  addTopicOfCourse
 }

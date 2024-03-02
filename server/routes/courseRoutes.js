@@ -1,5 +1,6 @@
 const express = require('express')
 const courseController = require('../controllers/courseController')
+const authorController = require('../controllers/authorController')
 const router = express.Router()
 
 /**
@@ -593,9 +594,11 @@ router.post('/:courseId/rate', courseController.rateCourse)
 // done
 router.post('/:courseId/enroll', courseController.enrollCourse)
 //  done
-router.post('/create', courseController.createCourse)
-router.delete('/:courseId/delete', courseController.deleteCourseById)
-router.patch('/:courseId/update', courseController.updateCourseById)
-router.post('/:courseId/publish', courseController.publishCourse)
+// router.post('/create', courseController.createCourse)
+// router.delete('/:courseId/delete', courseController.deleteCourseById)
+// router.patch('/:courseId/update', courseController.updateCourseById)
+// router.post('/:courseId/publish', courseController.publishCourse)
+
+router.post('/:courseId/addTopic', authorController.addTopicOfCourse)
 
 module.exports = router
