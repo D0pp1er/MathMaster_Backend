@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const statController = require('../controllers/statController')
 /**
  * @swagger
  * tags:
@@ -65,11 +66,12 @@ const router = express.Router()
  *         description: Internal Server Error
  */
 
-router.get('/user/:userId', (req, res) => {
-  // Logic to fetch all stats from the database
-  // ...
-  res.send('Get user stats')
-})
+// router.get('/user/:userId', (req, res) => {
+//   // Logic to fetch all stats from the database
+//   // ...
+//   res.send('Get user stats')
+// })
+router.get('/user/:userId', statController.getUserStats)
 
 /**
  * @swagger

@@ -75,8 +75,104 @@ async function loginUser (useremail, userpassword) {
   return userinfo
 }
 
+// async function getTotalXPfromLessons (userId) {
+//   const user = await prisma.user.findUnique({
+//     where: { user_id: userId },
+//     include: {
+//       completed_lessons: true
+//     }
+//   })
+//   if (user === null) {
+//     throw new Error('User not found')
+//   }
+//   console.log(user.completed_lessons)
+//   const totalXP = user.completed_lessons.reduce((total, lesson) => total + lesson.xp, 0)
+//   return totalXP
+// }
+
+async function getUserXPInLast7Days (userId) {
+  try {
+    const sevenDaysAgo = new Date()
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+
+    const user = await prisma.user.findUnique({
+      where: { user_id: userId },
+      include: {
+        completed_lessons: {
+          where: { timestamp: { gte: sevenDaysAgo } },
+          include: { lesson: true }
+        },
+        completed_quizzes: {
+          where: { timestamp: { gte: sevenDaysAgo } }
+        }
+      }
+    })
+
+    if (!user) {
+      throw new Error('User not found')
+    }
+
+    const lessonXP = user.completed_lessons.map(lesson => ({ date: lesson.timestamp.toISOString().split('T')[0], xp: lesson.lesson.XP }))
+    const quizXP = user.completed_quizzes.map(quiz => ({ date: quiz.timestamp.toISOString().split('T')[0], xp: quiz.XP }))
+
+    const xpList = [...lessonXP, ...quizXP]
+
+    const xpByDate = xpList.reduce((acc, curr) => {
+      acc[curr.date] = (acc[curr.date] || 0) + curr.xp
+      return acc
+    }, {})
+
+    return xpByDate
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+async function getUserStats (userId) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { user_id: userId },
+      include: {
+        enrolled_courses: true,
+        completed_lessons: {
+          include: {
+            lesson: true
+          }
+        },
+        completed_quizzes: true
+      }
+    })
+
+    if (!user) {
+      throw new Error('User not found')
+    }
+    // console.log(user)
+    const totalXp = user.completed_lessons.reduce((total, lesson) => total + lesson.lesson.XP, 0) + user.completed_quizzes.reduce((total, quiz) => total + quiz.XP, 0)
+    const enrolled = user.enrolled_courses.length
+    const lessonCompleted = user.completed_lessons.length
+    const problemSolved = user.completed_quizzes.length
+    const dailyXp = await getUserXPInLast7Days(userId)
+
+    return {
+      totalXp,
+      dailyXp,
+      enrolled,
+      lessonCompleted,
+      problemSolved
+    }
+    // return user
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+// console.log(getUserStats(3))
+
 module.exports = {
   getUserPreferredLanguage,
   registerUser,
-  loginUser
+  loginUser,
+  getUserStats
 }
