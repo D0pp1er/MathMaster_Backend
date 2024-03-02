@@ -1,0 +1,1 @@
+The domain of a function refers to the set of all possible input values for which the function is defined. It represents the range of values over which the function operates and produces meaningful output.

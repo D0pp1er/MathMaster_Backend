@@ -1,0 +1,1 @@
+A relation is a set of ordered pairs, where each pair consists of an input element (called the domain) and an associated output element (called the range). Relations can represent various types of connections or associations between elements of two sets. These connections may include mappings, comparisons, or any other form of correspondence between elements.

@@ -1,4 +1,5 @@
 const authorrepository = require('../database/authorrepository')
+const definitionrepository = require('../database/definitionrepository')
 
 const getLessonById = async (req, res) => {
   try {
@@ -48,7 +49,23 @@ const editCourse = async (req, res) => {
   }
 }
 
+const addDefinition = async (req, res) => {
+  try {
+    if (req.user.role !== 'author') {
+      throw new Error('You are not authorized to perform this action')
+    }
+    const defname = req.body.name
+    const defcontent = req.body.content
+    const language = req.body.language
+    const newDefinition = await definitionrepository.addDefinition(defname, defcontent, language)
+    res.send({ newDefinition, status: 'success', message: 'Definition added successfully' })
+  } catch (error) {
+    res.status(500).send({ message: 'Error adding the definition' + error.message, status: 'failed' })
+  }
+}
+
 module.exports = {
   getLessonById,
-  editCourse
+  editCourse,
+  addDefinition
 }

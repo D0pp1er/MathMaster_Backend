@@ -1,0 +1,1 @@
+A function is a relation between a set of inputs (called the domain) and a set of possible outputs (called the codomain), where each input is related to exactly one output. It assigns exactly one output value to each input value.

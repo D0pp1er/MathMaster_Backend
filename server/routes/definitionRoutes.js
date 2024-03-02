@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const definitioncontroller = require('../controllers/definitionController')
+const authorcontroller = require('../controllers/authorController')
 /**
  * @swagger
  * tags:
@@ -296,11 +297,7 @@ router.put('/:definitionId/update', (req, res) => {
   res.send(`Update definition with id ${definitionId}`)
 })
 // CREATE a new definition
-router.post('/create', (req, res) => {
-  // Logic to create a new definition in the database
-  // ...
-  res.send('Create a new definition')
-})
+router.post('/create', authorcontroller.addDefinition)
 // DELETE a definition by id
 router.delete('/:definitionId/delete', (req, res) => {
   const definitionId = req.params.definitionId
