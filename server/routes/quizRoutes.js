@@ -322,4 +322,6 @@ router.post('/:quizId/publish', (req, res) => {
   // ...
   res.send(`Publish definition with id ${quizId}`)
 })
+router.post('/:quizId/submit', quizController.submitquiz)
+
 module.exports = router

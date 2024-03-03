@@ -28,7 +28,21 @@ const editQuiz = async (req, res) => {
     res.status(500).send({ message: 'Error updating the quiz\t' + error.message, status: 'failed' })
   }
 }
+
+const submitquiz = async (req, res) => {
+  try {
+    const quizId = parseInt(req.params.quizId, 10) // Typecast to integer
+    const userId = req.user.userId
+    const score = parseInt(req.body.score, 10)
+    const xp = parseInt(req.body.xp, 10)
+    const submittedQuiz = await quizrepository.submitquiz(quizId, userId, score, xp)
+    res.send({ submittedQuiz, status: 'success', message: 'Quiz submitted successfully' })
+  } catch (error) {
+    res.status(500).send({ message: 'Error submitting the quiz\t' + error.message, status: 'failed' })
+  }
+}
 module.exports = {
   getQuizById,
-  editQuiz
+  editQuiz,
+  submitquiz
 }

@@ -141,8 +141,33 @@ async function addQuiz (topicId, xp, totalScore, quizName, quizContent, language
   return updatedContent
 }
 
+async function submitquiz (userId, quizId, xp, score) {
+  const submitreq = prisma.completed_quizzes.upsert({
+    where: {
+      user_id_quiz_id: {
+        user_id: userId,
+        quiz_id: quizId
+      }
+    },
+    update: {
+      XP: xp,
+      score,
+      timestamp: new Date()
+    },
+    create: {
+      user_id: userId,
+      quiz_id: quizId,
+      XP: xp,
+      score,
+      timestamp: new Date()
+    }
+  })
+  return submitreq
+}
+
 module.exports = {
   getQuizzesById,
   editQuiz,
-  addQuiz
+  addQuiz,
+  submitquiz
 }
