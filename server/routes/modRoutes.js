@@ -12,5 +12,6 @@ router.get('/editrequests/unpublished', modController.getUnpublishedEditRequests
 router.get('/editrequests/published', modController.getPublishedEditRequests)
 router.get('/editrequests/:editRequestId', modController.getEditRequestById)
 router.patch('/editrequests/:editRequestId/publish', modController.publishContent)
+router.patch('/editrequests/:editRequestId/addfeedback', modController.addmoderatorfeedback)
 
 module.exports = router

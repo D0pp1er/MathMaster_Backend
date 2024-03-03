@@ -93,10 +93,24 @@ const publishContent = async (req, res) => {
       throw new Error('You are not authorized to perform this action')
     }
     const editRequestId = parseInt(req.params.editRequestId, 10) // Typecast to integer
-    const editRequest = await editrequestrepo.publishContent(editRequestId)
+    const editRequest = await editrequestrepo.publishContent(editRequestId, req.user.userId)
     res.send({ editRequest, status: 'success', message: 'Content published successfully' })
   } catch (error) {
     res.status(500).send({ message: 'Error publishing the content' + error.message, status: 'failed' })
+  }
+}
+
+const addmoderatorfeedback = async (req, res) => {
+  try {
+    if (req.user.role !== 'moderator') {
+      throw new Error('You are not authorized to perform this action')
+    }
+    const editRequestId = parseInt(req.params.editRequestId, 10) // Typecast to integer
+    const feedback = req.body.feedback
+    const editRequest = await editrequestrepo.addmoderatorfeedback(editRequestId, feedback, req.user.userId)
+    res.send({ editRequest, status: 'success', message: 'Feedback added successfully' })
+  } catch (error) {
+    res.status(500).send({ message: 'Error adding the feedback' + error.message, status: 'failed' })
   }
 }
 
@@ -107,5 +121,6 @@ module.exports = {
   getUnpublishedEditRequests,
   getPublishedEditRequests,
   getEditRequestById,
-  publishContent
+  publishContent,
+  addmoderatorfeedback
 }

@@ -372,13 +372,14 @@ async function publishDefinition (definitionId, filepath, content, languageId) {
   return definition
 }
 
-async function publishContent (editRequestId) {
+async function publishContent (editRequestId, moderatorId) {
   const editRequest = await prisma.edit_request.update({
     where: {
       edit_request_id: editRequestId
     },
     data: {
-      published: true
+      published: true,
+      moderator_id: moderatorId
     }
   })
   const content = await getContentById(editRequest.requested_item_id, editRequest.request_type)
@@ -392,11 +393,25 @@ async function publishContent (editRequestId) {
   return { editRequest, content }
 }
 
+async function addmoderatorfeedback (editRequestId, moderatorFeedback, moderatorId) {
+  const editRequest = await prisma.edit_request.update({
+    where: {
+      edit_request_id: editRequestId
+    },
+    data: {
+      moderator_feedback: moderatorFeedback,
+      moderator_id: moderatorId
+    }
+  })
+  return editRequest
+}
+
 module.exports = {
   getUnpublishedEditRequestForAuthor,
   addEditRequest,
   getPublishedEditRequests,
   getUnpublishedEditRequests,
   getEditRequestById,
-  publishContent
+  publishContent,
+  addmoderatorfeedback
 }
