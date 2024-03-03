@@ -178,6 +178,9 @@ async function getMaxScore (quizId) {
   const maxScore = Math.max(...scores.map(scoreObj => scoreObj.score))
 
   // console.log(maxScore)
+  if (maxScore === -Infinity) {
+    return 0
+  }
   return maxScore
 }
 
@@ -192,7 +195,9 @@ async function getMaxXP (quizId) {
   })
 
   const maxXP = Math.max(...XPs.map(XPObj => XPObj.XP))
-
+  if (maxXP === -Infinity) {
+    return 0
+  }
   return maxXP
 }
 
@@ -212,6 +217,18 @@ async function getQuizStatOfUser (userId, quizId, givenlanguage) {
   })
 
   const quiz = await getQuizzesById(quizId, userId)
+  if (quizStat === null) {
+    return {
+      name: quiz.name,
+      my_score: 0,
+      my_xp: 0,
+      highest_score: await getMaxScore(quizId),
+      highest_xp: await getMaxXP(quizId),
+      language: givenlanguage,
+      xp: quiz.XP,
+      score: quiz.Total_score
+    }
+  }
 
   return {
     name: quiz.name,
