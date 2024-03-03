@@ -1,0 +1,1 @@
+An odd function in mathematics is a function where if you replace the input value x with its negative -x, the output is the negative of the original output. In other words, the function's graph has rotational symmetry of 180 degrees about the origin. For example, f(x) = x^3 is an odd function because f(x) = -f(-x) for any value of x.

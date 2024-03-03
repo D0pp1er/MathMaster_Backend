@@ -1,0 +1,1 @@
+Equation: An equation is a mathematical statement that asserts the equality of two expressions. It typically contains one or more variables and specifies conditions under which the variables satisfy the equality relationship.

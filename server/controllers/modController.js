@@ -1,5 +1,6 @@
 const cousrserepo = require('../database/courserepository')
 const authorrepo = require('../database/authorrepository')
+const editrequestrepo = require('../database/editrequestrepository')
 
 const addCourse = async (req, res) => {
   try {
@@ -49,8 +50,62 @@ const searchAuthorByName = async (req, res) => {
   }
 }
 
+const getUnpublishedEditRequests = async (req, res) => {
+  try {
+    if (req.user.role !== 'moderator') {
+      throw new Error('You are not authorized to perform this action')
+    }
+    const unpublishedEditRequests = await editrequestrepo.getUnpublishedEditRequests()
+    res.send(unpublishedEditRequests)
+  } catch (error) {
+    res.status(500).send({ message: 'Error retrieving the unpublished edit requests' + error.message, status: 'failed' })
+  }
+}
+
+const getPublishedEditRequests = async (req, res) => {
+  try {
+    if (req.user.role !== 'moderator') {
+      throw new Error('You are not authorized to perform this action')
+    }
+    const publishedEditRequests = await editrequestrepo.getPublishedEditRequests()
+    res.send(publishedEditRequests)
+  } catch (error) {
+    res.status(500).send({ message: 'Error retrieving the published edit requests' + error.message, status: 'failed' })
+  }
+}
+
+const getEditRequestById = async (req, res) => {
+  try {
+    if (req.user.role !== 'moderator') {
+      throw new Error('You are not authorized to perform this action')
+    }
+    const editRequestId = parseInt(req.params.editRequestId, 10) // Typecast to integer
+    const editRequest = await editrequestrepo.getEditRequestById(editRequestId)
+    res.send(editRequest)
+  } catch (error) {
+    res.status(500).send({ message: 'Error retrieving the edit request' + error.message, status: 'failed' })
+  }
+}
+
+const publishContent = async (req, res) => {
+  try {
+    if (req.user.role !== 'moderator') {
+      throw new Error('You are not authorized to perform this action')
+    }
+    const editRequestId = parseInt(req.params.editRequestId, 10) // Typecast to integer
+    const editRequest = await editrequestrepo.publishContent(editRequestId)
+    res.send({ editRequest, status: 'success', message: 'Content published successfully' })
+  } catch (error) {
+    res.status(500).send({ message: 'Error publishing the content' + error.message, status: 'failed' })
+  }
+}
+
 module.exports = {
   addCourse,
   addAuthorizedAuthor,
-  searchAuthorByName
+  searchAuthorByName,
+  getUnpublishedEditRequests,
+  getPublishedEditRequests,
+  getEditRequestById,
+  publishContent
 }

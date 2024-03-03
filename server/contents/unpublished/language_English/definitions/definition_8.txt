@@ -1,0 +1,1 @@
+An even function in mathematics is a function where if you replace the input value x with its negative -x, you get the same output. In simpler terms, the function looks the same when you flip it across the y-axis. For example, f(x) = x^2 is an even function because f(x) = f(-x) for any value of x.

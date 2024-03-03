@@ -40,6 +40,16 @@ function writeFile (relativePath, content) {
   }
 }
 
+function deleteFile (relativePath) {
+  try {
+    const absFilePath = convertToAbsolutePath(relativePath)
+    fs.unlinkSync(absFilePath)
+    console.log(`File '${relativePath}' deleted successfully.`)
+  } catch (error) {
+    console.error(`Error deleting file: ${error.message}`)
+  }
+}
+
 // Example usage:
 // const relativePathToFile = '../contents/published/language_1/course_1/topic_1/abstraction_2/lesson_1.txt'
 // const relativePathToFile = '../contents/published/language_English/lessons/abstraction_Novice/lesson_1.txt'
@@ -49,5 +59,6 @@ function writeFile (relativePath, content) {
 
 module.exports = {
   readFileData,
-  writeFile
+  writeFile,
+  deleteFile
 }

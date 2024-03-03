@@ -3,6 +3,7 @@ const definitionrepository = require('../database/definitionrepository')
 const courseRepository = require('../database/courserepository')
 const lessonrepository = require('../database/lessonrepository')
 const quizrepository = require('../database/quizrepository')
+const editrequestrepository = require('../database/editrequestrepository')
 
 const getLessonById = async (req, res) => {
   try {
@@ -61,7 +62,8 @@ const addDefinition = async (req, res) => {
     const defcontent = req.body.content
     const language = req.body.language
     const newDefinition = await definitionrepository.addDefinition(defname, defcontent, language)
-    res.send({ newDefinition, status: 'success', message: 'Definition added successfully' })
+    const editRequest = await editrequestrepository.addEditRequest(req.user.userId, newDefinition.definition_id, 'definition', 'added new definition')
+    res.send({ newDefinition, status: 'success', message: 'Definition added successfully', editRequest })
   } catch (error) {
     res.status(500).send({ message: 'Error adding the definition' + error.message, status: 'failed' })
   }
@@ -98,7 +100,8 @@ const addLessonToTopic = async (req, res) => {
     const abstractionLevel = req.body.abstraction_level
 
     const newLesson = await lessonrepository.addLesson(topicId, lessonXp, lessonName, lessonContent, language, abstractionLevel, authorId)
-    res.send({ newLesson, status: 'success', message: 'Lesson added to topic successfully' })
+    const editRequest = await editrequestrepository.addEditRequest(req.user.userId, newLesson.lesson.lesson_id, 'lesson', 'added new lesson')
+    res.send({ newLesson, status: 'success', message: 'Lesson added to topic successfully', editRequest })
   } catch (error) {
     res.status(500).send({ message: 'Error adding the lesson to topic\t' + error.message, status: 'failed' })
   }
@@ -116,9 +119,23 @@ const addQuizToTopic = async (req, res) => {
     const content = req.body.content
     const language = req.body.language
     const newQuiz = await quizrepository.addQuiz(topicId, xp, totalScore, name, content, language)
-    res.send({ newQuiz, status: 'success', message: 'Quiz added to topic successfully' })
+    const editRequest = await editrequestrepository.addEditRequest(req.user.userId, newQuiz.quiz_id, 'quiz', 'added new quiz')
+    // const unpublished = await editrequestrepository.getUnpublishedEditRequestForAuthor(req.user.userId)
+    res.send({ newQuiz, status: 'success', message: 'Quiz added to topic successfully', editRequest })
   } catch (error) {
     res.status(500).send({ message: 'Error adding the quiz to topic\t' + error.message, status: 'failed' })
+  }
+}
+
+const getUnpublishedEditRequestForAuthor = async (req, res) => {
+  try {
+    if (req.user.role !== 'author') {
+      throw new Error('You are not authorized to perform this action')
+    }
+    const unpublished = await editrequestrepository.getUnpublishedEditRequestForAuthor(req.user.userId)
+    res.send(unpublished)
+  } catch (error) {
+    res.status(500).send({ message: 'Error getting the unpublished edit requests\t' + error.message, status: 'failed' })
   }
 }
 
@@ -128,5 +145,6 @@ module.exports = {
   addDefinition,
   addTopicOfCourse,
   addLessonToTopic,
-  addQuizToTopic
+  addQuizToTopic,
+  getUnpublishedEditRequestForAuthor
 }

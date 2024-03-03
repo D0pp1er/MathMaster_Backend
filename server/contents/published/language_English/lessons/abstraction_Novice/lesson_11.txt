@@ -1,0 +1,1 @@
+It's time to explore function parameters.A *parameter* A parameter is like a *control knob* for a function. Changing the parameter changes the function in a smooth way.Here's an example of a simple [linear]('/definitions/1') function with a parameter $m$ that controls the [slope](/definitions/4)```graph1: plot, red, y = m*x + 2, -3 < m=0 < 3view: -20 < x < 20, -40 < y < 40```
