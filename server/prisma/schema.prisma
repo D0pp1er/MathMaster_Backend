@@ -32,6 +32,7 @@ model user {
   enrolled_courses          enrolled_courses[]
   user_preferred_language   language                    @relation(fields: [preferred_language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction)
   role                      role                        @relation(fields: [role_id], references: [role_id], onDelete: NoAction, onUpdate: NoAction)
+  edit_request              edit_request[]
 }
 
 model course_type {
@@ -103,6 +104,7 @@ model author {
   user_id           Int             @unique
   user              user            @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
   lesson_author     lesson_author[]
+  edit_request      edit_request[]
 }
 
 model lesson_author {
@@ -257,4 +259,18 @@ model authorized_course_authors {
   user      user   @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([user_id, course_id])
+}
+
+model edit_request {
+  edit_request_id Int      @id @default(autoincrement())
+  author_id     Int
+  request_type  String
+  published     Boolean  @default(false)
+  requested_item_id Int
+  moderator_id  Int?
+  author        author   @relation(fields: [author_id], references: [content_author_id], onDelete: NoAction, onUpdate: NoAction)
+  moderator     user?     @relation(fields: [moderator_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+  moderator_feedback String?
+  author_feedback    String?
+
 }
