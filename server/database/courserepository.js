@@ -258,10 +258,18 @@ async function hasUserCompletedLessons (userId, lessonId) {
 
 // issue here
 async function hasUserCompletedQuizzes (userId, quizId) {
-  const completedQuizzes = await prisma.completed_quizzes.findFirst({
+  // const completedQuizzes = await prisma.completed_quizzes.findFirst({
+  //   where: {
+  //     user_id: userId,
+  //     quiz_id: quizId
+  //   }
+  // })
+  const completedQuizzes = await prisma.completed_quizzes.findUnique({
     where: {
-      user_id: userId,
-      quiz_id: quizId
+      user_id_quiz_id: {
+        user_id: userId,
+        quiz_id: quizId
+      }
     }
   })
 
