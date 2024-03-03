@@ -41,7 +41,7 @@ async function getQuizzesById (quizId, userId) {
 
   const quizContent = {
     id: quiz.quiz_id,
-    name: quiz.name,
+    name: quiz.quiz_content[0].name,
     XP: quiz.XP,
     Total_score: quiz.Total_score,
     content: quizcontent
