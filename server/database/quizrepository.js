@@ -165,9 +165,70 @@ async function submitquiz (userId, quizId, xp, score) {
   return submitreq
 }
 
+async function getMaxScore (quizId) {
+  const scores = await prisma.completed_quizzes.findMany({
+    where: {
+      quiz_id: quizId
+    },
+    select: {
+      score: true
+    }
+  })
+
+  const maxScore = Math.max(...scores.map(scoreObj => scoreObj.score))
+
+  // console.log(maxScore)
+  return maxScore
+}
+
+async function getMaxXP (quizId) {
+  const XPs = await prisma.completed_quizzes.findMany({
+    where: {
+      quiz_id: quizId
+    },
+    select: {
+      XP: true
+    }
+  })
+
+  const maxXP = Math.max(...XPs.map(XPObj => XPObj.XP))
+
+  return maxXP
+}
+
+async function getQuizStatOfUser (userId, quizId, givenlanguage) {
+  const quizStat = await prisma.completed_quizzes.findUnique({
+    where: {
+      user_id_quiz_id: {
+        user_id: userId,
+        quiz_id: quizId
+      }
+    },
+    select: {
+      XP: true,
+      score: true,
+      timestamp: true
+    }
+  })
+
+  const quiz = await getQuizzesById(quizId, userId)
+
+  return {
+    name: quiz.name,
+    my_score: quizStat.score,
+    my_xp: quizStat.XP,
+    highest_score: await getMaxScore(quizId),
+    highest_xp: await getMaxXP(quizId),
+    language: givenlanguage,
+    xp: quiz.XP,
+    score: quiz.Total_score
+  }
+}
+
 module.exports = {
   getQuizzesById,
   editQuiz,
   addQuiz,
-  submitquiz
+  submitquiz,
+  getQuizStatOfUser
 }

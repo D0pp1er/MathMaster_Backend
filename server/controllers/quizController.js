@@ -41,8 +41,22 @@ const submitquiz = async (req, res) => {
     res.status(500).send({ message: 'Error submitting the quiz\t' + error.message, status: 'failed' })
   }
 }
+
+const getQuizStatOfUser = async (req, res) => {
+  try {
+    const userId = req.user.userId
+    const quizId = parseInt(req.params.quizId, 10) // Typecast to integer
+    const language = req.user.preferredLanguage
+    const quizStat = await quizrepository.getQuizStatOfUser(quizId, userId, language)
+    res.send(quizStat)
+  } catch (error) {
+    res.status(500).send('Error retrieving the quiz stat\t' + error.message)
+  }
+}
+
 module.exports = {
   getQuizById,
   editQuiz,
-  submitquiz
+  submitquiz,
+  getQuizStatOfUser
 }
